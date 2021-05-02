@@ -14,21 +14,49 @@ namespace Project.Elevators
         Vector3 elevatorPos;
 
         ElevatorMover elevatorMover;
+        Transform calledElevatorDestination;
+        Vector3 testVector3;
 
         float timeSinceArrivedAtFloor = Mathf.Infinity;
         int currentFloorIndex = 0;
+        bool isElevatorCalled;
+
+        int testFloor;
         
         void Awake()
         {
             elevatorMover = GetComponent<ElevatorMover>();
+
             elevatorPos = GetElevatorPos();
         }
 
         void Update()
         {
-            ElevatorBehaviour();
-            
+            if(isElevatorCalled)
+            {
+                playerCall();
+            }
+            else
+            {
+                ElevatorBehaviour();
+            }
+
+            print(isElevatorCalled);
             timeSinceArrivedAtFloor += Time.deltaTime;
+        }
+
+        void playerCall()
+        {
+            SelectFloor(testFloor, isElevatorCalled);
+        }
+
+        public void SelectFloor(int floorIndex, bool called)
+        {
+            testFloor = floorIndex;
+            isElevatorCalled = called;
+            testVector3 = GetSelectedFloor(testFloor);
+            elevatorMover.StartMoveAction(testVector3, elevatorSpeedFraction);
+            print("Called");
         }
 
         Vector3 GetElevatorPos()
@@ -57,8 +85,8 @@ namespace Project.Elevators
 
         bool AtFloor()
         {
-            float distanceToWaypoint = Vector3.Distance(transform.position, GetCurrentFloor());
-            return distanceToWaypoint < elevatorTolerance;
+            float distanceToFloor = Vector3.Distance(transform.position, GetCurrentFloor());
+            return distanceToFloor < elevatorTolerance;
         }
 
         void CycleFloor()
@@ -69,6 +97,12 @@ namespace Project.Elevators
         Vector3 GetCurrentFloor()
         {
             return elevatorPath.GetFloor(currentFloorIndex);
+        }
+
+        //If elevator is called allow to get floor index
+        Vector3 GetSelectedFloor(int floorIndex)
+        {
+            return elevatorPath.GetFloor(floorIndex);
         }
     }
 }

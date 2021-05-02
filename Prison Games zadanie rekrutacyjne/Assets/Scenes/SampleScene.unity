@@ -471,7 +471,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 246955174}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: -2.5, z: 4.5}
+  m_LocalPosition: {x: -5, y: -1.5, z: 4.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 627321711}
@@ -570,6 +570,18 @@ Transform:
   m_Father: {fileID: 1724533233}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &415076509 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3314337524308471491, guid: 7d92baa754acbf842a87fa1c43a6211a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4079801718488193183}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d81a27c3b2bd074428eab8f59ab95339, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &415076512 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6610488826793338124, guid: 7d92baa754acbf842a87fa1c43a6211a,
@@ -1062,6 +1074,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1699613184 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 324462481634166497, guid: 74d353398ea3a8545b000a580faf0262,
+    type: 3}
+  m_PrefabInstance: {fileID: 1726457707710634315}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95086c8490503984eaa4b81cca2c0c89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1724533232
 GameObject:
   m_ObjectHideFlags: 0
@@ -1169,6 +1193,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 324462481634166497, guid: 74d353398ea3a8545b000a580faf0262,
+        type: 3}
+      propertyPath: calledFloor
+      value: 
+      objectReference: {fileID: 246955175}
+    - target: {fileID: 324462481634166497, guid: 74d353398ea3a8545b000a580faf0262,
+        type: 3}
+      propertyPath: elevatorCaller
+      value: 
+      objectReference: {fileID: 1699613184}
+    - target: {fileID: 324462481634166497, guid: 74d353398ea3a8545b000a580faf0262,
+        type: 3}
+      propertyPath: elevatorController
+      value: 
+      objectReference: {fileID: 415076509}
     - target: {fileID: 2578203080799678211, guid: 74d353398ea3a8545b000a580faf0262,
         type: 3}
       propertyPath: m_RootOrder
@@ -1255,8 +1294,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1244927180799184134, guid: 10611893ddcac984089e003c340529e9,
         type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1244927180799184134, guid: 10611893ddcac984089e003c340529e9,
+        type: 3}
       propertyPath: m_LocalPosition.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1244927180799184134, guid: 10611893ddcac984089e003c340529e9,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1244927180799184134, guid: 10611893ddcac984089e003c340529e9,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8053596
+      objectReference: {fileID: 0}
+    - target: {fileID: 1244927180799184134, guid: 10611893ddcac984089e003c340529e9,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.5927866
+      objectReference: {fileID: 0}
+    - target: {fileID: 1244927180799184134, guid: 10611893ddcac984089e003c340529e9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -72.71
       objectReference: {fileID: 0}
     - target: {fileID: 1744307366237528050, guid: 10611893ddcac984089e003c340529e9,
         type: 3}
@@ -1377,7 +1441,7 @@ PrefabInstance:
     - target: {fileID: 3314337524308471491, guid: 7d92baa754acbf842a87fa1c43a6211a,
         type: 3}
       propertyPath: dwellingAtFloorTime
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3314337524308471491, guid: 7d92baa754acbf842a87fa1c43a6211a,
         type: 3}

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Project.Elevators;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -42,8 +43,9 @@ namespace Project.Control
 
                     if(Input.GetKeyDown(KeyCode.E))
                     {
-                        //raycastedObject.SetActive(false);
-                        print("Interact with object");
+                        ElevatorCaller elevatorButton = raycastedObject.GetComponent<ElevatorCaller>();
+                        
+                        elevatorButton.CallElevator();
                     }
                 }
             }
