@@ -14,8 +14,7 @@ namespace Project.Elevators
         Vector3 elevatorPos;
 
         ElevatorMover elevatorMover;
-        Transform calledElevatorDestination;
-        Vector3 testVector3;
+        Vector3 calledElevatorDestination;
 
         float timeSinceArrivedAtFloor = Mathf.Infinity;
         int currentFloorIndex = 0;
@@ -54,8 +53,14 @@ namespace Project.Elevators
         {
             testFloor = floorIndex;
             isElevatorCalled = called;
-            testVector3 = GetSelectedFloor(testFloor);
-            elevatorMover.StartMoveAction(testVector3, elevatorSpeedFraction);
+            calledElevatorDestination = GetSelectedFloor(testFloor);
+
+            if (AtFloor(calledElevatorDestination))
+            {
+                return;
+            }
+
+            elevatorMover.StartMoveAction(calledElevatorDestination, elevatorSpeedFraction);
             print("Called");
         }
 
@@ -86,6 +91,11 @@ namespace Project.Elevators
         bool AtFloor()
         {
             float distanceToFloor = Vector3.Distance(transform.position, GetCurrentFloor());
+            return distanceToFloor < elevatorTolerance;
+        }
+        bool AtFloor(Vector3 destination)
+        {
+            float distanceToFloor = Vector3.Distance(transform.position, destination);
             return distanceToFloor < elevatorTolerance;
         }
 

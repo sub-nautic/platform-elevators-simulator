@@ -105,9 +105,10 @@ GameObject:
   - component: {fileID: 911688238079907000}
   - component: {fileID: 512037370090054727}
   - component: {fileID: 5246833930730348639}
-  m_Layer: 8
-  m_Name: Cube
-  m_TagString: Untagged
+  - component: {fileID: 6267479571973018646}
+  m_Layer: 9
+  m_Name: 'Elevator Button '
+  m_TagString: Object
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -186,6 +187,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6267479571973018646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602599212591974292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95086c8490503984eaa4b81cca2c0c89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  elevatorController: {fileID: 3314337524308471491}
+  floor: 0
 --- !u!1 &1033222645160090243
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,9 +213,10 @@ GameObject:
   - component: {fileID: 5824778325090611613}
   - component: {fileID: 6926648372459981466}
   - component: {fileID: 1333311753960317805}
-  m_Layer: 8
-  m_Name: Cube
-  m_TagString: Untagged
+  - component: {fileID: 2080334147699179061}
+  m_Layer: 9
+  m_Name: 'Elevator Button '
+  m_TagString: Object
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -279,6 +295,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2080334147699179061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1033222645160090243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95086c8490503984eaa4b81cca2c0c89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  elevatorController: {fileID: 3314337524308471491}
+  floor: 3
 --- !u!1 &1649656973048620018
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,7 +319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6357250478388566175}
   m_Layer: 0
-  m_Name: Button
+  m_Name: 1 Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -320,7 +350,7 @@ GameObject:
   m_Component:
   - component: {fileID: 623864678203186166}
   m_Layer: 0
-  m_Name: Button (3)
+  m_Name: 4 Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -351,7 +381,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8952110892581227932}
   m_Layer: 0
-  m_Name: Button (2)
+  m_Name: 3 Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -449,7 +479,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5739604220353824697}
   m_Layer: 0
-  m_Name: Button (1)
+  m_Name: 2 Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -482,9 +512,10 @@ GameObject:
   - component: {fileID: 6976841175998630823}
   - component: {fileID: 8080744904472364901}
   - component: {fileID: 4249300812133815000}
-  m_Layer: 8
-  m_Name: Cube
-  m_TagString: Untagged
+  - component: {fileID: 2417663287027586449}
+  m_Layer: 9
+  m_Name: 'Elevator Button '
+  m_TagString: Object
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -563,6 +594,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2417663287027586449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7307448101337661359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95086c8490503984eaa4b81cca2c0c89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  elevatorController: {fileID: 3314337524308471491}
+  floor: 1
 --- !u!1 &7740632804206073436
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,9 +713,10 @@ GameObject:
   - component: {fileID: 3199199745342309234}
   - component: {fileID: 8714358114051823821}
   - component: {fileID: 4306774568743966015}
-  m_Layer: 8
-  m_Name: Cube
-  m_TagString: Untagged
+  - component: {fileID: 4885248779928176426}
+  m_Layer: 9
+  m_Name: 'Elevator Button '
+  m_TagString: Object
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -749,3 +795,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4885248779928176426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8347653266429535365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95086c8490503984eaa4b81cca2c0c89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  elevatorController: {fileID: 3314337524308471491}
+  floor: 2

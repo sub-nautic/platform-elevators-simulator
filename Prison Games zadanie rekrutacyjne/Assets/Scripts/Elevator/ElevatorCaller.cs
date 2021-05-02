@@ -4,7 +4,6 @@ namespace Project.Elevators
 {
     public class ElevatorCaller : MonoBehaviour
     {
-        [SerializeField] Transform calledFloor;
         [SerializeField] ElevatorController elevatorController;
         [SerializeField] int floor;
 
