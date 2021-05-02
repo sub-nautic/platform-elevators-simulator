@@ -6,7 +6,7 @@ namespace Project.Elevators
 {
     public class ElevatorController : MonoBehaviour
     {
-        [SerializeField] float elevatorSpeedFraction = 0.2f;
+        [SerializeField] float elevatorSpeedFraction = 0.01f;
         [SerializeField] float dwellingAtFloorTime = 1f;
         [SerializeField] float elevatorTolerance = 1f;
         [SerializeField] ElevatorPath elevatorPath;
@@ -26,7 +26,7 @@ namespace Project.Elevators
 
         void Update()
         {
-            ElevatorBehaviour();            
+            ElevatorBehaviour();
             
             timeSinceArrivedAtFloor += Time.deltaTime;
         }

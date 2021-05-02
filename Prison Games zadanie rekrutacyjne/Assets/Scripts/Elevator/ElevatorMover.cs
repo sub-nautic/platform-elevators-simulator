@@ -4,18 +4,11 @@ namespace Project.Elevators
 {
     public class ElevatorMover : MonoBehaviour
     {
-        //[SerializeField] float maxSpeed = 6f;
-        
-        Vector3 elevatorPos;
-        
-        private void Start()
-        {
-            elevatorPos = transform.position;
-        }
+        [SerializeField] Transform elevatorPos;        
 
         public void StartMoveAction(Vector3 destination, float speedFraction)
         {
-            elevatorPos = Vector3.Lerp(elevatorPos, destination, speedFraction);
+            elevatorPos.position = Vector3.Lerp(elevatorPos.position, destination, speedFraction);
             print("Move");
         }
     }
