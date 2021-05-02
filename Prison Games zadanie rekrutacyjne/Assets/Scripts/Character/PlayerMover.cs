@@ -42,6 +42,8 @@ namespace Project.Control
 
         void Start()
         {
+            //Reverse layerMask because the layerMask tells the raycast what to ignore. 
+            //By reversing it, we make all the one 1's into 0's and all the 0's into 1's so it only pays attention to the ground.
             groundLayer = ~groundLayer;
             emitterNum = 1;
         }

@@ -1,19 +1,70 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Project.Control
 {
     public class PlayerCamera : MonoBehaviour
     {
+        [Header("Camera config")]
         [SerializeField] float mouseSensitivity = 100f;
         [SerializeField] Transform playerBody = null;
+
+        [Header("Raycast config")]
+        [SerializeField] int rayLenght = 1;
+        [SerializeField] LayerMask layerMaskInteractable;
+        [SerializeField] Image uiCrosshair = null;
         
+        GameObject raycastedObject;
+
         float xRotation = 0f;
+        bool isCrosshairDefault = true;
         
         void Start()
         {
             Cursor.lockState = CursorLockMode.Locked;
+            CrosshairNormal();
+        }
+
+        void Update()
+        {
+            RaycastHit hit;
+            Vector3 forward = transform.TransformDirection(Vector3.forward);
+
+            if(Physics.Raycast(transform.position, forward, out hit, rayLenght, layerMaskInteractable))
+            {
+                if(hit.collider.CompareTag("Object"))
+                {
+                    raycastedObject = hit.collider.gameObject;
+                    isCrosshairDefault = false;
+                    CrosshairActive();
+
+                    if(Input.GetKeyDown(KeyCode.E))
+                    {
+                        //raycastedObject.SetActive(false);
+                        print("Interact with object");
+                    }
+                }
+            }
+            else
+            {
+                if(!isCrosshairDefault)
+                {
+                    isCrosshairDefault = true;
+                    CrosshairNormal();
+                }                
+            }
+        }
+
+        void CrosshairActive()
+        {
+            uiCrosshair.color = Color.green;
+        }
+
+        void CrosshairNormal()
+        {
+            uiCrosshair.color = Color.white;
         }
 
         void LateUpdate()
