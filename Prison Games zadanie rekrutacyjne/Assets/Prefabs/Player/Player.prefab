@@ -556,7 +556,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseSensitivity: 100
   playerBody: {fileID: 0}
-  rayLenght: 3
+  rayLenght: 2.5
   layerMaskInteractable:
     serializedVersion: 2
     m_Bits: 0

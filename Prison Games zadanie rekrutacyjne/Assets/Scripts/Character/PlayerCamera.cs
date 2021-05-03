@@ -13,7 +13,7 @@ namespace Project.Control
         [SerializeField] Transform playerBody = null;
 
         [Header("Raycast config")]
-        [SerializeField] int rayLenght = 1;
+        [SerializeField] float rayLenght = 2.5f;
         [SerializeField] LayerMask layerMaskInteractable;
         [SerializeField] Image uiCrosshair = null;
         
