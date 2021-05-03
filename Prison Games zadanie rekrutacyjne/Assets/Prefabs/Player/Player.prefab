@@ -555,11 +555,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseSensitivity: 100
-  playerBody: {fileID: 0}
+  playerBody: {fileID: 8609424231722337886}
   rayLenght: 2.5
   layerMaskInteractable:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   uiCrosshair: {fileID: 0}
 --- !u!1 &8178078250945324709
 GameObject:
@@ -573,6 +573,7 @@ GameObject:
   - component: {fileID: 8268210755072967603}
   - component: {fileID: 6642183105117604868}
   - component: {fileID: 4256530385747536292}
+  - component: {fileID: 1447263034563763123}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -653,6 +654,22 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1447263034563763123
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8178078250945324709}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8753407665970909664
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ namespace Project.Elevators
 {
     public class ElevatorController : MonoBehaviour
     {
+        [SerializeField] bool isPlatform;
         [SerializeField] float elevatorSpeedFraction = 0.01f;
         [SerializeField] float dwellingAtFloorTime = 1f;
         [SerializeField] float elevatorTolerance = 1f;
@@ -43,7 +44,7 @@ namespace Project.Elevators
                 ElevatorBehaviour();
             }
 
-            print(isElevatorCalled);
+            print("Is elevator called: " + isElevatorCalled);
             timeSinceArrivedAtFloor += Time.deltaTime;
         }
         
@@ -56,25 +57,24 @@ namespace Project.Elevators
         {
             testFloor = floorIndex;
             isElevatorCalled = called;
-
-            calledElevatorDestination = GetCurrentFloor(testFloor); //- Vector3.up;
-
-            // if (currentFloorIndex == 0)
-            // {
-            //     Vector3 correctingElevator = elevatorPath.GetFloor(currentFloorIndex) + (Vector3.down * 2);
-            //     calledElevatorDestination = correctingElevator;
-            // }
-            
-            //todo
-            // if(AtFloor(calledElevatorDestination))
-            // {
-            //     elevatorArrived = true;
-            //     StartCoroutine(ArrivedElevator());
-            //     print("Check if elevator is on position");
-            // }
-
+            if(!isPlatform)
+            {
+                calledElevatorDestination = GetCurrentFloor(testFloor) - Vector3.up;
+                print("Elevator is called");
+            }
+            else
+            {
+                calledElevatorDestination = GetCurrentFloor(testFloor);
+                print("Platform is called");
+            }
+                //todo
+                // if(AtFloor(calledElevatorDestination))
+                // {
+                //     elevatorArrived = true;
+                //     StartCoroutine(ArrivedElevator());
+                //     print("Check if elevator is on position");
+                // }
             elevatorMover.StartMoveAction(calledElevatorDestination, elevatorSpeedFraction);
-            print("Elevator is called");
         }
 
         //todo
@@ -101,7 +101,7 @@ namespace Project.Elevators
                     timeSinceArrivedAtFloor = 0;
                     CycleFloor();
                 }
-                nextPosition = GetCurrentFloor();
+                nextPosition = GetCurrentFloor();                
             }
             if (timeSinceArrivedAtFloor > dwellingAtFloorTime)
             {
@@ -111,8 +111,8 @@ namespace Project.Elevators
 
         bool AtFloor()
         {
-            float distanceToFloor = Vector3.Distance(transform.position, GetCurrentFloor());
-            return distanceToFloor < elevatorTolerance;
+            float distanceToPoint = Vector3.Distance(transform.position, GetCurrentFloor());
+            return distanceToPoint < elevatorTolerance;
         }
 
         //todo
@@ -131,9 +131,9 @@ namespace Project.Elevators
         Vector3 GetCurrentFloor()
         {
             //Correct elevator position at index(0)
-            if(currentFloorIndex == 0)
+            if(currentFloorIndex == 0 && !isPlatform)
             {
-                Vector3 correctingElevator = elevatorPath.GetFloor(currentFloorIndex);// + (Vector3.down * 2);
+                Vector3 correctingElevator = elevatorPath.GetFloor(currentFloorIndex) + (Vector3.down * 2);
                 return correctingElevator;
             }
             return elevatorPath.GetFloor(currentFloorIndex);

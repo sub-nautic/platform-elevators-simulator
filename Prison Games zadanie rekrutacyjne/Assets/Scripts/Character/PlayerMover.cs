@@ -28,10 +28,10 @@ namespace Project.Control
         GroundCheck currentDetector;
 
         CharacterController characterController;
-        Vector3 moveVector;
         
         int emitterNum;
         bool isGrounded;
+        bool isOnPlatform;     
         
         bool groundCheckEnable = true;
 
@@ -56,8 +56,7 @@ namespace Project.Control
             GroundCheck();
             Move();
         }
-
-
+        
         void Move()
         {
             Vector3 moveVector = Vector3.zero;
@@ -80,7 +79,7 @@ namespace Project.Control
             if (horizMove > 0 && rightGroundCheck.IsDetected()) { moveVector += transform.right; }
             if (horizMove < 0 && leftGroundCheck.IsDetected()) { moveVector += -transform.right; }
 
-            moveVector.y -= gravity * Time.deltaTime;
+            moveVector.y -= gravity * Time.deltaTime;            
               
             characterController.Move(moveVector * speed * Time.deltaTime);           
         }
@@ -95,6 +94,7 @@ namespace Project.Control
             }
         }
 
+        
         void GroundCheck()
         {            
             if (emitterNum == 1)
@@ -121,12 +121,19 @@ namespace Project.Control
             bool groundHit = Physics.Raycast(origin, direction, maxDistance, groundLayer);
 
             //If player jump, breaks GroundCheck
-            if(!groundCheckEnable)
+            if(!groundCheckEnable) //|| isOnPlatform)
             {
                 groundHit = true;
             }
 
+            print("isOnPlatform active" + isOnPlatform);
+            
             currentDetector.Detect(groundHit);
+        }
+
+        public bool IsOnPlatform(bool detect)
+        {
+            return isOnPlatform = detect;
         }
 
         //Raycast under player to check if can jump

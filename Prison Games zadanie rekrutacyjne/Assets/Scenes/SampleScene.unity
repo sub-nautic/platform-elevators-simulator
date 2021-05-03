@@ -3808,6 +3808,11 @@ PrefabInstance:
       objectReference: {fileID: 1736381760}
     - target: {fileID: 5760607209477529883, guid: 0cf696991a1dce6408499fcd60b98c1a,
         type: 3}
+      propertyPath: elevatorTolerance
+      value: 0.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5760607209477529883, guid: 0cf696991a1dce6408499fcd60b98c1a,
+        type: 3}
       propertyPath: dwellingAtFloorTime
       value: 2
       objectReference: {fileID: 0}
@@ -3816,6 +3821,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Horizontal Elevator
       objectReference: {fileID: 0}
+    - target: {fileID: 6624368919686912134, guid: 0cf696991a1dce6408499fcd60b98c1a,
+        type: 3}
+      propertyPath: elevatorController
+      value: 
+      objectReference: {fileID: 345916859}
+    - target: {fileID: 8530728913226432262, guid: 0cf696991a1dce6408499fcd60b98c1a,
+        type: 3}
+      propertyPath: elevatorController
+      value: 
+      objectReference: {fileID: 345916859}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0cf696991a1dce6408499fcd60b98c1a, type: 3}
 --- !u!4 &4310961999776894686 stripped

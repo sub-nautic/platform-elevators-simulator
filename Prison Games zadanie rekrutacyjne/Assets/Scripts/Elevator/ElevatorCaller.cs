@@ -5,7 +5,7 @@ namespace Project.Elevators
     public class ElevatorCaller : MonoBehaviour
     {
         [SerializeField] ElevatorController elevatorController;
-        [SerializeField] int floor;
+        [SerializeField] int floor;        
 
         bool called = false;
         
@@ -13,8 +13,6 @@ namespace Project.Elevators
         {
             called = true;
             elevatorController.SelectFloor(floor, called);
-            
-            //???
             called = false;
         }
     }
