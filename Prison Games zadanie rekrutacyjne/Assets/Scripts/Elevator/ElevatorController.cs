@@ -53,12 +53,7 @@ namespace Project.Elevators
         {
             testFloor = floorIndex;
             isElevatorCalled = called;
-            calledElevatorDestination = GetSelectedFloor(testFloor);
-
-            if (AtFloor(calledElevatorDestination))
-            {
-                return;
-            }
+            calledElevatorDestination = GetCurrentFloor(testFloor) - Vector3.up;
 
             elevatorMover.StartMoveAction(calledElevatorDestination, elevatorSpeedFraction);
             print("Called");
@@ -93,11 +88,6 @@ namespace Project.Elevators
             float distanceToFloor = Vector3.Distance(transform.position, GetCurrentFloor());
             return distanceToFloor < elevatorTolerance;
         }
-        bool AtFloor(Vector3 destination)
-        {
-            float distanceToFloor = Vector3.Distance(transform.position, destination);
-            return distanceToFloor < elevatorTolerance;
-        }
 
         void CycleFloor()
         {
@@ -106,11 +96,16 @@ namespace Project.Elevators
 
         Vector3 GetCurrentFloor()
         {
+            if(currentFloorIndex == 0)
+            {
+                Vector3 nowy = elevatorPath.GetFloor(currentFloorIndex) + (Vector3.down * 2);
+                return nowy;
+            }
             return elevatorPath.GetFloor(currentFloorIndex);
         }
 
         //If elevator is called allow to get floor index
-        Vector3 GetSelectedFloor(int floorIndex)
+        Vector3 GetCurrentFloor(int floorIndex)
         {
             return elevatorPath.GetFloor(floorIndex);
         }
