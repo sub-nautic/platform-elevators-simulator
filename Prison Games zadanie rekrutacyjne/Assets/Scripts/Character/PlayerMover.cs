@@ -25,10 +25,13 @@ namespace Project.Control
         [SerializeField] GroundCheck leftGroundCheck;
         [SerializeField] GroundCheck rightGroundCheck;
 
+        [Tooltip("Add canvas with stats disply")]
+        [SerializeField] StatsDisplay uiDisplay;
+
         GroundCheck currentDetector;
 
         CharacterController characterController;
-        
+
         int emitterNum;
         bool isGrounded;
         bool isOnPlatform;     
@@ -71,7 +74,8 @@ namespace Project.Control
             if(Input.GetButtonDown("Jump") && isGrounded)
             {
                 StartCoroutine(StopGroundCheck());
-                moveVector.y = Mathf.Sqrt(jumpHeight * 3.0f * gravity);              
+                moveVector.y = Mathf.Sqrt(jumpHeight * 3.0f * gravity);
+                uiDisplay.AddJumpCounter();            
             }
             
             if (vertMove > 0 && forwardGroundCheck.IsDetected()) { moveVector += transform.forward; }
@@ -165,6 +169,6 @@ namespace Project.Control
                     groundCheckEnable = true;
                 }
             }       
-        }
+        }     
     }
 }

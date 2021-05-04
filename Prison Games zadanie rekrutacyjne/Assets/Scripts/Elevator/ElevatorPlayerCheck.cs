@@ -40,8 +40,9 @@ namespace Project.Elevators
         {
             if(detection)
             {
-                
             }
+                Vector3 platformVector = Vector3.zero;
+                print(platformVector);
         }
     }
 }
