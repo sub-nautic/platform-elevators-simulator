@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class OnPlayerFall : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class OnPlayerFall : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
-            other.gameObject.transform.position = new Vector3(0,0,0);
+            SceneManager.LoadScene(0);
         }
     }
 }

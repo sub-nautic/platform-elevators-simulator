@@ -9,10 +9,7 @@ namespace Project.Elevators
 
         public void StartMoveAction(Vector3 destination, float speedFraction)
         {
-            //elevatorPos.position = Vector3.Lerp(elevatorPos.position, destination, speedFraction);
-            //elevatorPos.position = destination;
             elevatorPos.position = Vector3.MoveTowards(elevatorPos.position, destination, speed * Time.deltaTime);
-            print("Move");
         }
     }
 }

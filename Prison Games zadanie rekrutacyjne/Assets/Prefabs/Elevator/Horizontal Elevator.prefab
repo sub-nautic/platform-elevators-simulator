@@ -414,7 +414,7 @@ GameObject:
   - component: {fileID: 465523085468462930}
   - component: {fileID: 2164253675435989092}
   - component: {fileID: 6960722532268763901}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Moveing Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -573,8 +573,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.49120176, y: 0.44402027, z: 0.49523455}
-  m_Center: {x: -0.13425064, y: 0.27798986, z: 0.08537111}
+  m_Size: {x: 1.8909495, y: 0.41391134, z: 1.8314426}
+  m_Center: {x: -0.023888946, y: 0.29304433, z: -0.036217213}
 --- !u!114 &1405909206383907403
 MonoBehaviour:
   m_ObjectHideFlags: 0

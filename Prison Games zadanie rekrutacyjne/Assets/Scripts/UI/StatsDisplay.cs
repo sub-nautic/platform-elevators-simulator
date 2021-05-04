@@ -10,7 +10,7 @@ public class StatsDisplay : MonoBehaviour
     [SerializeField] TextMeshProUGUI jumpCounterText;
     [SerializeField] TextMeshProUGUI currentFloorText;
     
-    PlayerMover player;
+    PlayerMoverRB player;
 
     float atFloor;
     float timer;
@@ -18,7 +18,7 @@ public class StatsDisplay : MonoBehaviour
     
     void Awake()
     {
-        player = GameObject.FindWithTag("Player").GetComponent<PlayerMover>();
+        player = GameObject.FindWithTag("Player").GetComponent<PlayerMoverRB>();
     }
 
     private void Start()

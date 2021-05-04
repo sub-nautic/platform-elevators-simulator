@@ -10,7 +10,7 @@ namespace Project.Elevators
         [SerializeField] float elevatorSpeedFraction = 0.01f;
         [SerializeField] float dwellingAtFloorTime = 1f;
         [SerializeField] float elevatorTolerance = 1f;
-        [SerializeField] float waitForPlayerInteraction = 5f;
+        //[SerializeField] float waitForPlayerInteraction = 5f;
         [SerializeField] ElevatorPath elevatorPath;
         
         Vector3 elevatorPos;
@@ -44,7 +44,7 @@ namespace Project.Elevators
                 ElevatorBehaviour();
             }
 
-            print("Is elevator called: " + isElevatorCalled);
+            //print("Is elevator called: " + isElevatorCalled);
             timeSinceArrivedAtFloor += Time.deltaTime;
         }
         
@@ -60,12 +60,12 @@ namespace Project.Elevators
             if(!isPlatform)
             {
                 calledElevatorDestination = GetCurrentFloor(testFloor) - Vector3.up;
-                print("Elevator is called");
+                //print("Elevator is called");
             }
             else
             {
                 calledElevatorDestination = GetCurrentFloor(testFloor);
-                print("Platform is called");
+                //print("Platform is called");
             }
                 //todo
                 // if(AtFloor(calledElevatorDestination))
