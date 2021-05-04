@@ -413,6 +413,8 @@ GameObject:
   - component: {fileID: 6610488826793338124}
   - component: {fileID: 3314337524308471491}
   - component: {fileID: 577697214236720287}
+  - component: {fileID: 894435527674911931}
+  - component: {fileID: 5743251093543127859}
   m_Layer: 8
   m_Name: Elevator
   m_TagString: Untagged
@@ -452,6 +454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d81a27c3b2bd074428eab8f59ab95339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlatform: 0
   elevatorSpeedFraction: 0.2
   dwellingAtFloorTime: 1
   elevatorTolerance: 1
@@ -469,6 +472,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   elevatorPos: {fileID: 0}
+--- !u!114 &894435527674911931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5788137483697736629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: babd9a56c9ff57e4d848889a5bb95fcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &5743251093543127859
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5788137483697736629}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.44, y: 1, z: 2.72}
+  m_Center: {x: -0.12, y: 2.17, z: 0}
 --- !u!1 &6708441744019943775
 GameObject:
   m_ObjectHideFlags: 0

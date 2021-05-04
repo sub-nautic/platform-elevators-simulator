@@ -8,17 +8,15 @@ public class StatsDisplay : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI timeCounterText;
     [SerializeField] TextMeshProUGUI jumpCounterText;
-    [SerializeField] TextMeshProUGUI currentFloorText;
     
-    PlayerMoverRB player;
-
-    float atFloor;
+    PlayerMover player;
+    
     float timer;
     int jumps = 0;
     
     void Awake()
     {
-        player = GameObject.FindWithTag("Player").GetComponent<PlayerMoverRB>();
+        player = GameObject.FindWithTag("Player").GetComponent<PlayerMover>();
     }
 
     private void Start()
@@ -28,11 +26,7 @@ public class StatsDisplay : MonoBehaviour
 
     void Update()
     {
-        CurrentFloor();
         TimeCounter();
-
-        atFloor = player.transform.position.y;
-        currentFloorText.text = CurrentFloor().ToString();
     }
 
     public void AddJumpCounter()
@@ -40,24 +34,6 @@ public class StatsDisplay : MonoBehaviour
         jumps += 1;
 
         jumpCounterText.text = jumps.ToString();
-    }
-
-    int CurrentFloor()
-    {
-        switch (atFloor)
-        {
-            case float d when d >= 18.9:
-                return 3;
-
-            case float d when d >= 12.1:
-                return 2;
-
-            case float d when d >= 6.1:
-                return 1;
-
-            default:
-                return 0;
-        }
     }
 
     void TimeCounter()
