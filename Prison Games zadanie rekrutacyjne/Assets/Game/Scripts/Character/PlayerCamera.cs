@@ -31,45 +31,60 @@ namespace Project.Control
 
         void Update()
         {
-            if(Input.GetKeyDown(KeyCode.Escape))
+            CursorState();
+            InteractionRaycast();
+        }
+
+        private static void CursorState()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if(Cursor.visible)
+                if (Cursor.visible)
                 {
                     Cursor.visible = false;
                 }
-                else 
+                else
                 {
                     Cursor.visible = true;
                     Cursor.lockState = CursorLockMode.None;
-                }                
+                }
             }
-            
+        }
+
+        private void InteractionRaycast()
+        {
             RaycastHit hit;
             Vector3 forward = transform.TransformDirection(Vector3.forward);
 
-            if(Physics.Raycast(transform.position, forward, out hit, rayLenght, layerMaskInteractable))
+            if (Physics.Raycast(transform.position, forward, out hit, rayLenght, layerMaskInteractable))
             {
-                if(hit.collider.CompareTag("Object"))
+                if (hit.collider.CompareTag("Object"))
                 {
                     raycastedObject = hit.collider.gameObject;
                     isCrosshairDefault = false;
                     CrosshairActive();
-
-                    if(Input.GetKeyDown(KeyCode.E))
-                    {
-                        ElevatorCaller elevatorButton = raycastedObject.GetComponent<ElevatorCaller>();
-                        
-                        elevatorButton.CallElevator();
-                    }
+                    
+                    //Interact to call elevator
+                    CallingElevator();
                 }
             }
             else
             {
-                if(!isCrosshairDefault)
+                if (!isCrosshairDefault)
                 {
                     isCrosshairDefault = true;
                     CrosshairNormal();
-                }                
+                }
+            }
+        }
+
+        private void CallingElevator()
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                ElevatorCaller elevatorButton = raycastedObject.GetComponent<ElevatorCaller>();
+
+                elevatorButton.CallElevator();
             }
         }
 

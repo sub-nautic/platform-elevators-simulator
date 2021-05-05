@@ -1,23 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
-using Project.Control;
 
 public class StatsDisplay : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI timeCounterText;
     [SerializeField] TextMeshProUGUI jumpCounterText;
     
-    PlayerMover player;
-    
     float timer;
     int jumps = 0;
-    
-    void Awake()
-    {
-        player = GameObject.FindWithTag("Player").GetComponent<PlayerMover>();
-    }
 
     private void Start()
     {

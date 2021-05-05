@@ -10,7 +10,7 @@ namespace Project.Elevators
         [SerializeField] float elevatorSpeedFraction = 0.01f;
         [SerializeField] float dwellingAtFloorTime = 1f;
         [SerializeField] float elevatorTolerance = 1f;
-        //[SerializeField] float waitForPlayerInteraction = 5f;
+        [SerializeField] float waitForPlayerInteraction = 5f;
         [SerializeField] ElevatorPath elevatorPath;
         
         Vector3 elevatorPos;
@@ -24,7 +24,7 @@ namespace Project.Elevators
         //todo
         //bool elevatorArrived = false;
 
-        int testFloor;
+        int selectedDestination;
         
         void Awake()
         {
@@ -50,21 +50,21 @@ namespace Project.Elevators
         
         void playerCall()
         {
-            SelectFloor(testFloor, isElevatorCalled);
+            SelectFloor(selectedDestination, isElevatorCalled);
         }
 
         public void SelectFloor(int floorIndex, bool called)
         {
-            testFloor = floorIndex;
+            selectedDestination = floorIndex;
             isElevatorCalled = called;
             if(!isPlatform)
             {
-                calledElevatorDestination = GetCurrentFloor(testFloor) - Vector3.up;
+                calledElevatorDestination = GetCurrentFloor(selectedDestination) - Vector3.up;
                 //print("Elevator is called");
             }
             else
             {
-                calledElevatorDestination = GetCurrentFloor(testFloor);
+                calledElevatorDestination = GetCurrentFloor(selectedDestination);
                 //print("Platform is called");
             }
                 //todo
@@ -77,7 +77,6 @@ namespace Project.Elevators
             elevatorMover.StartMoveAction(calledElevatorDestination, elevatorSpeedFraction);
         }
 
-        //todo
         // IEnumerator ArrivedElevator()
         // {
         //     if(!elevatorArrived) yield break;

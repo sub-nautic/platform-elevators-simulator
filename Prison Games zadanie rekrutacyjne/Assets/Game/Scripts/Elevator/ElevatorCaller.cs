@@ -15,7 +15,6 @@ namespace Project.Elevators
         {
             called = true;
             elevatorController.SelectFloor(floor, called);
-            called = false;
         }
     }
 }
