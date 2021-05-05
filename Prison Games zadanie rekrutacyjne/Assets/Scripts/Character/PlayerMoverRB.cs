@@ -52,13 +52,12 @@ namespace Project.Control
             emitterNum = 1;
         }
 
-
         void Update()
         {            
-            Move();
-            HaveFootsOnGround();
             UpdateEmitterNum();
             GroundCheck();
+            HaveFootsOnGround();
+            Move();
         }
         
         void Move()
@@ -70,13 +69,16 @@ namespace Project.Control
                 uiDisplay.AddJumpCounter();            
             }
 
-
+            
 
             float vertMove = Input.GetAxis("Vertical");
             float horizMove = Input.GetAxis("Horizontal");
             
             Vector3 moveVector = Vector3.zero;            
-            
+            if(!forwardGroundCheck.IsDetected() && !rearGroundCheck.IsDetected() &&
+               !rightGroundCheck.IsDetected() && !leftGroundCheck.IsDetected()) return;
+            else if(!isGrounded) return;
+
             if (vertMove > 0 && forwardGroundCheck.IsDetected()) { moveVector += transform.forward; }
             if (vertMove < 0 && rearGroundCheck.IsDetected()) { moveVector += -transform.forward; }
             if (horizMove > 0 && rightGroundCheck.IsDetected()) { moveVector += transform.right; }
@@ -92,7 +94,6 @@ namespace Project.Control
             }
 
             playerRB.velocity = new Vector3(moveVector.x, playerRB.velocity.y, moveVector.z);
-            //playerRB.velocity = (moveVector * (speed * Time.deltaTime));
         }
 
         void GetInputs()
@@ -166,15 +167,12 @@ namespace Project.Control
         IEnumerator StopGroundCheck()
         {           
             groundCheckEnable = false;
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(.2f);
             while (!isGrounded)
             {
+                groundCheckEnable = true;
                 yield return null;
-                if(isGrounded)
-                {
-                    groundCheckEnable = true;
-                }
-            }       
+            }
         }     
     }
 }

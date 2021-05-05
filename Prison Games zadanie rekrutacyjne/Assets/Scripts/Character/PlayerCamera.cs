@@ -25,11 +25,25 @@ namespace Project.Control
         void Start()
         {
             Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             CrosshairNormal();
         }
 
         void Update()
         {
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                if(Cursor.visible)
+                {
+                    Cursor.visible = false;
+                }
+                else 
+                {
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
+                }                
+            }
+            
             RaycastHit hit;
             Vector3 forward = transform.TransformDirection(Vector3.forward);
 

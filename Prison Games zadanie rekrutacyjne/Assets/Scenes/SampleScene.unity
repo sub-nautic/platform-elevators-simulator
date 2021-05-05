@@ -836,7 +836,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 3f608b19836ac544999a390038ecf5ef, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -872,13 +872,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 324367790}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -14.2, y: -0.51, z: 0}
-  m_LocalScale: {x: 14.549, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -14, y: -10, z: 0}
+  m_LocalScale: {x: 20, y: 4, z: 4}
   m_Children: []
   m_Father: {fileID: 1614065093}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!114 &345916859 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5760607209477529883, guid: 0cf696991a1dce6408499fcd60b98c1a,
@@ -1810,7 +1810,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1146192070}
   m_Layer: 0
-  m_Name: Second Block
+  m_Name: Second Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1968,7 +1968,7 @@ PrefabInstance:
     - target: {fileID: 3314337524308471491, guid: 7d92baa754acbf842a87fa1c43a6211a,
         type: 3}
       propertyPath: dwellingAtFloorTime
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3314337524308471491, guid: 7d92baa754acbf842a87fa1c43a6211a,
         type: 3}
@@ -3069,7 +3069,7 @@ GameObject:
   - component: {fileID: 1724533235}
   - component: {fileID: 1724533234}
   m_Layer: 0
-  m_Name: Block
+  m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3119,7 +3119,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1724533232}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5581aca19a843c140a87a86ee1115fc3, type: 3}
+  m_Script: {fileID: 11500000, guid: da6daa8c242efbb42a6eb90e143ddd7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   floors: {fileID: 627321710}
@@ -3685,7 +3685,7 @@ PrefabInstance:
     - target: {fileID: 3796169486393446588, guid: 10611893ddcac984089e003c340529e9,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 247.86
+      value: 247.86035
       objectReference: {fileID: 0}
     - target: {fileID: 3863653942583191361, guid: 10611893ddcac984089e003c340529e9,
         type: 3}
@@ -3924,7 +3924,7 @@ PrefabInstance:
     - target: {fileID: 3314337524308471491, guid: 7d92baa754acbf842a87fa1c43a6211a,
         type: 3}
       propertyPath: dwellingAtFloorTime
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3314337524308471491, guid: 7d92baa754acbf842a87fa1c43a6211a,
         type: 3}
@@ -4088,7 +4088,7 @@ PrefabInstance:
     - target: {fileID: 5760607209477529883, guid: 0cf696991a1dce6408499fcd60b98c1a,
         type: 3}
       propertyPath: dwellingAtFloorTime
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5804289778332834383, guid: 0cf696991a1dce6408499fcd60b98c1a,
         type: 3}

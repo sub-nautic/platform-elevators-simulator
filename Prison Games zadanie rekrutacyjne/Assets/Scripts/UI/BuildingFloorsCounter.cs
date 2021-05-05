@@ -15,9 +15,7 @@ public class BuildingFloorsCounter : MonoBehaviour
     PlayerMoverRB player;
     float atFloor;
 
-    float thirdFloor;
-    float secondFloor;
-    float firstFloor;
+    float thirdFloor, secondFloor, firstFloor;
 
     bool isPlayerInBuilding = false;
 
@@ -31,6 +29,22 @@ public class BuildingFloorsCounter : MonoBehaviour
     void Update()
     {
         PlayerInBuilding();
+    }
+
+    void PlayerInBuilding()
+    {
+        if(!isPlayerInBuilding) return;
+
+        atFloor = player.transform.position.y;
+
+        OnWithFloor();
+
+        if(OnWithFloor() == 0)
+        {
+            floorTextToDisplay.text = "ground floor".ToString();
+            return;
+        }
+        floorTextToDisplay.text = OnWithFloor().ToString();      
     }
 
     void OnTriggerEnter(Collider other)
@@ -49,22 +63,6 @@ public class BuildingFloorsCounter : MonoBehaviour
             isPlayerInBuilding = false;
             floorTextToDisplay.text = "ground floor".ToString();
         }
-    }
-
-    void PlayerInBuilding()
-    {
-        if(!isPlayerInBuilding) return;
-
-        atFloor = player.transform.position.y;
-
-        OnWithFloor();
-
-        if(OnWithFloor() == 0)
-        {
-            floorTextToDisplay.text = "ground floor".ToString();
-            return;
-        }
-        floorTextToDisplay.text = OnWithFloor().ToString();      
     }
 
     int OnWithFloor()

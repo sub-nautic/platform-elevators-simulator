@@ -8,6 +8,8 @@ namespace Project.Elevators
         [SerializeField] int floor;        
 
         bool called = false;
+
+        public int Floor { get { return floor; } }
         
         public void CallElevator()
         {
