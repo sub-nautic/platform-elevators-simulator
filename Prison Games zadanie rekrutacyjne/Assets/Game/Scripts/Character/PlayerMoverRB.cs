@@ -36,7 +36,6 @@ namespace Project.Control
 
         int emitterNum;
         bool isGrounded;
-        bool canJump;
 
         bool groundCheckEnable = true;
 
@@ -48,25 +47,23 @@ namespace Project.Control
         void Start()
         {
             emitterNum = 1;
-            canJump = true;
         }
-
+        
         void Update()
         {
+
             HaveFootsOnGround();
-            if (!isGrounded && !canJump) { print("olooo"); return; }
             GroundCheck();
             Move();
         }
 
         void Move()
         {
-            if (Input.GetButtonDown("Jump") && isGrounded && canJump)
+            if (Input.GetButtonDown("Jump") && isGrounded)
             {
                 StartCoroutine(StopGroundCheck());
                 playerRB.velocity = new Vector3(playerRB.velocity.x, jumpHeight, playerRB.velocity.z);
                 uiDisplay.AddJumpCounter();
-                canJump = false;
             }
 
             float vertMove = Input.GetAxisRaw("Vertical");
@@ -82,9 +79,6 @@ namespace Project.Control
                 if (horizMove > 0 && rightGroundCheck.IsDetected()) { moveVector += transform.right * sideSpeedMultiplier; }
                 if (horizMove < 0 && leftGroundCheck.IsDetected()) { moveVector += -transform.right * sideSpeedMultiplier; }
             }
-            
-
-            
 
             if (Input.GetKey(KeyCode.LeftShift))
             {
@@ -139,7 +133,6 @@ namespace Project.Control
             if (Physics.Raycast(transform.position + (Vector3.up * 0.05f), -Vector3.up, out hit, distToGround + 0.1f))
             {
                 isGrounded = true;
-                canJump = true;
                 print("grunded");
             }
             else
@@ -153,9 +146,9 @@ namespace Project.Control
         {
             groundCheckEnable = false;
             yield return new WaitForSeconds(.2f);
-            while (!isGrounded)
+            while (!groundCheckEnable)
             {
-                groundCheckEnable = true;
+                if(isGrounded) groundCheckEnable = true;
                 yield return null;
             }
         }
