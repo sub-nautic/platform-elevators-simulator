@@ -3621,6 +3621,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1000333604644181816, guid: 10611893ddcac984089e003c340529e9,
+        type: 3}
+      propertyPath: showGroundCheckStatus
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1228460433597893104, guid: 10611893ddcac984089e003c340529e9,
+        type: 3}
+      propertyPath: showGroundCheckStatus
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3193520918769447895, guid: 10611893ddcac984089e003c340529e9,
+        type: 3}
+      propertyPath: showGroundCheckStatus
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3863653942583191361, guid: 10611893ddcac984089e003c340529e9,
         type: 3}
       propertyPath: m_Name
@@ -3685,6 +3700,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4798301192006606899, guid: 10611893ddcac984089e003c340529e9,
+        type: 3}
+      propertyPath: showGroundCheckStatus
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10611893ddcac984089e003c340529e9, type: 3}

@@ -51,13 +51,18 @@ namespace Project.Control
         
         void Update()
         {
-
             HaveFootsOnGround();
             GroundCheck();
-            Move();
+            Movement();
         }
 
-        void Move()
+        void Movement()
+        {
+            Jumping();
+            Moving();
+        }
+
+        private void Jumping()
         {
             if (Input.GetButtonDown("Jump") && isGrounded)
             {
@@ -65,7 +70,10 @@ namespace Project.Control
                 playerRB.velocity = new Vector3(playerRB.velocity.x, jumpHeight, playerRB.velocity.z);
                 uiDisplay.AddJumpCounter();
             }
+        }
 
+        private void Moving()
+        {
             float vertMove = Input.GetAxis("Vertical");
             float horizMove = Input.GetAxis("Horizontal");
 

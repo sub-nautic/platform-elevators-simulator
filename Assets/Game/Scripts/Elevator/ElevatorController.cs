@@ -4,12 +4,13 @@ using UnityEngine;
 
 namespace Project.Elevators
 {
+    [RequireComponent(typeof(ElevatorMover), typeof(ElevatorPlayerCheck))]
     public class ElevatorController : MonoBehaviour
     {
+        [Tooltip("Select true if this gameObject is a moving platform")]
         [SerializeField] bool isPlatform;
         [SerializeField] float elevatorSpeedFraction = 0.01f;
         [SerializeField] float dwellingAtFloorTime = 1f;
-        [SerializeField] float elevatorTolerance = 1f;
         [SerializeField] float waitInIdleState = 10f;
         [SerializeField] ElevatorPath elevatorPath;
         
@@ -17,6 +18,8 @@ namespace Project.Elevators
 
         ElevatorMover elevatorMover;
         Vector3 calledElevatorDestination;
+        
+        float elevatorTolerance = 1f;
 
         float timeSinceArrivedAtFloor = Mathf.Infinity;
         int currentFloorIndex = 0;
@@ -31,6 +34,12 @@ namespace Project.Elevators
             elevatorPos = transform.position;
         }
 
+        void Start()
+        {
+            if(isPlatform) elevatorTolerance = 0.0001f;
+            else elevatorTolerance = 1f;
+        }
+
         void Update()
         {
             if(isElevatorCalled)
@@ -41,8 +50,8 @@ namespace Project.Elevators
             {
                 ElevatorBehaviour();
             }
+            //print(gameObject.name +" called: " + isElevatorCalled);
 
-            print(gameObject.name +" called: " + isElevatorCalled);
             timeSinceArrivedAtFloor += Time.deltaTime;
         }
         
