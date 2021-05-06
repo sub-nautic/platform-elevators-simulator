@@ -66,8 +66,8 @@ namespace Project.Control
                 uiDisplay.AddJumpCounter();
             }
 
-            float vertMove = Input.GetAxisRaw("Vertical");
-            float horizMove = Input.GetAxisRaw("Horizontal");
+            float vertMove = Input.GetAxis("Vertical");
+            float horizMove = Input.GetAxis("Horizontal");
 
             Vector3 moveVector = Vector3.zero;
 
@@ -133,7 +133,6 @@ namespace Project.Control
             if (Physics.Raycast(transform.position + (Vector3.up * 0.05f), -Vector3.up, out hit, distToGround + 0.1f))
             {
                 isGrounded = true;
-                print("grunded");
             }
             else
             {

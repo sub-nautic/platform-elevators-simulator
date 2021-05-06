@@ -1015,8 +1015,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlatform: 0
   elevatorSpeedFraction: 0.2
-  dwellingAtFloorTime: 1
+  dwellingAtFloorTime: 0
   elevatorTolerance: 1
+  waitInIdleState: 10
   elevatorPath: {fileID: 0}
 --- !u!114 &577697214236720287
 MonoBehaviour:
@@ -1030,7 +1031,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 479b9934eda16c54f84980612b00ed6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  elevatorPos: {fileID: 0}
+  elevatorPos: {fileID: 6610488826793338124}
 --- !u!114 &894435527674911931
 MonoBehaviour:
   m_ObjectHideFlags: 0

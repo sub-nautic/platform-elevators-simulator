@@ -25,7 +25,7 @@ namespace Project.Elevators
             if (other.gameObject.tag == "Player")
             {
                 isPlayerIn = false;
-                 other.transform.parent = playerTransformParent;
+                other.transform.parent = playerTransformParent;
             }
         }
     }

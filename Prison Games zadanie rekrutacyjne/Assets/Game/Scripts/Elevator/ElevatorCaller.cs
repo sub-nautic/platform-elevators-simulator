@@ -14,7 +14,9 @@ namespace Project.Elevators
         public void CallElevator()
         {
             called = true;
-            elevatorController.SelectFloor(floor, called);
+            elevatorController.MoveToPlayerSelectedFloor(floor);
+            elevatorController.IsElevatorCalled(called);
+            called = false;
         }
     }
 }

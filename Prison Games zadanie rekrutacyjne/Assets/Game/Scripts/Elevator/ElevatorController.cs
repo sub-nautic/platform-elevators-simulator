@@ -10,7 +10,7 @@ namespace Project.Elevators
         [SerializeField] float elevatorSpeedFraction = 0.01f;
         [SerializeField] float dwellingAtFloorTime = 1f;
         [SerializeField] float elevatorTolerance = 1f;
-        [SerializeField] float waitForPlayerInteraction = 5f;
+        [SerializeField] float waitInIdleState = 10f;
         [SerializeField] ElevatorPath elevatorPath;
         
         Vector3 elevatorPos;
@@ -21,8 +21,6 @@ namespace Project.Elevators
         float timeSinceArrivedAtFloor = Mathf.Infinity;
         int currentFloorIndex = 0;
         bool isElevatorCalled = false;
-        //todo
-        //bool elevatorArrived = false;
 
         int selectedDestination;
         
@@ -30,33 +28,28 @@ namespace Project.Elevators
         {
             elevatorMover = GetComponent<ElevatorMover>();
 
-            elevatorPos = GetElevatorPos();
+            elevatorPos = transform.position;
         }
 
         void Update()
         {
             if(isElevatorCalled)
             {
-                playerCall();
+                MoveToPlayerSelectedFloor(selectedDestination);
             }
             else
             {
                 ElevatorBehaviour();
             }
 
-            //print("Is elevator called: " + isElevatorCalled);
+            print(gameObject.name +" called: " + isElevatorCalled);
             timeSinceArrivedAtFloor += Time.deltaTime;
         }
         
-        void playerCall()
-        {
-            SelectFloor(selectedDestination, isElevatorCalled);
-        }
-
-        public void SelectFloor(int floorIndex, bool called)
-        {
+        public bool IsElevatorCalled(bool isCalled){ return isElevatorCalled = isCalled; }
+        public void MoveToPlayerSelectedFloor(int floorIndex)
+        {            
             selectedDestination = floorIndex;
-            isElevatorCalled = called;
             if(!isPlatform)
             {
                 calledElevatorDestination = GetCurrentFloor(selectedDestination) - Vector3.up;
@@ -67,26 +60,23 @@ namespace Project.Elevators
                 calledElevatorDestination = GetCurrentFloor(selectedDestination);
                 //print("Platform is called");
             }
-                //todo
-                // if(AtFloor(calledElevatorDestination))
-                // {
-                //     elevatorArrived = true;
-                //     StartCoroutine(ArrivedElevator());
-                //     print("Check if elevator is on position");
-                // }
+
             elevatorMover.StartMoveAction(calledElevatorDestination, elevatorSpeedFraction);
-        }
 
-        // IEnumerator ArrivedElevator()
-        // {
-        //     if(!elevatorArrived) yield break;
-        //     yield return new WaitForSeconds(waitForPlayerInteraction);
-        //     isElevatorCalled = false;
-        // }
+            Vector3 newPosition = calledElevatorDestination;
 
-        Vector3 GetElevatorPos()
-        {
-            return transform.position;
+            //When elevator will be on destination floor time will start counting
+            if (newPosition != transform.position){ timeSinceArrivedAtFloor = 0; }
+            
+            //If in destination position            
+            if(newPosition == transform.position)
+            {
+                if(timeSinceArrivedAtFloor > waitInIdleState)
+                {
+                    isElevatorCalled = false;
+                }                
+                //print(gameObject.name + " - Im at destination point");
+            }
         }
 
         void ElevatorBehaviour()
@@ -114,14 +104,6 @@ namespace Project.Elevators
             return distanceToPoint < elevatorTolerance;
         }
 
-        //todo
-        //Checks if is on position of called elevator
-        bool AtFloor(Vector3 distance)
-        {
-            float distanceToFloor = Vector3.Distance(transform.position, distance);
-            return distanceToFloor < elevatorTolerance;
-        }
-
         void CycleFloor()
         {
             currentFloorIndex = elevatorPath.GetNextIndex(currentFloorIndex);
@@ -129,7 +111,7 @@ namespace Project.Elevators
 
         Vector3 GetCurrentFloor()
         {
-            //Correct elevator position at index(0)
+            //Tweak elevator position at index(0)
             if(currentFloorIndex == 0 && !isPlatform)
             {
                 Vector3 correctingElevator = elevatorPath.GetFloor(currentFloorIndex) + (Vector3.down * 2);
