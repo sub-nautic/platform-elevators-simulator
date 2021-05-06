@@ -6,7 +6,7 @@ namespace Project.Elevators
     {
         public int GetNextIndex(int i)
         {
-            //Floor loop
+            //Gets next floor
             if (i + 1 >= transform.childCount)
             {
                 return 0;

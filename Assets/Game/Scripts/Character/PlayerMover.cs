@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Project.Control
 {
-    public class PlayerMoverRB : MonoBehaviour
+    public class PlayerMover : MonoBehaviour
     {
         [Header("Movement Config")]
         [SerializeField] float forwardSpeedMultiplier = 1f;
@@ -23,7 +23,7 @@ namespace Project.Control
         [SerializeField] LayerMask groundLayer;
         [SerializeField] Transform groundCheckEmitter;
         [SerializeField] GroundCheck forwardGroundCheck;
-        [SerializeField] GroundCheck rearGroundCheck;
+        [SerializeField] GroundCheck backGroundCheck;
         [SerializeField] GroundCheck leftGroundCheck;
         [SerializeField] GroundCheck rightGroundCheck;
 
@@ -33,7 +33,6 @@ namespace Project.Control
 
         GroundCheck currentDetector;
         Rigidbody playerRB;
-
         int emitterNum;
         bool isGrounded;
 
@@ -48,7 +47,7 @@ namespace Project.Control
         {
             emitterNum = 1;
         }
-        
+
         void Update()
         {
             HaveFootsOnGround();
@@ -79,11 +78,11 @@ namespace Project.Control
 
             Vector3 moveVector = Vector3.zero;
 
-            if (forwardGroundCheck.IsDetected() || rearGroundCheck.IsDetected() ||
+            if (forwardGroundCheck.IsDetected() || backGroundCheck.IsDetected() ||
                rightGroundCheck.IsDetected() || leftGroundCheck.IsDetected() && !isGrounded)
             {
                 if (vertMove > 0 && forwardGroundCheck.IsDetected()) { moveVector += transform.forward * forwardSpeedMultiplier; }
-                if (vertMove < 0 && rearGroundCheck.IsDetected()) { moveVector += -transform.forward * backwardSpeedMultiplier; }
+                if (vertMove < 0 && backGroundCheck.IsDetected()) { moveVector += -transform.forward * backwardSpeedMultiplier; }
                 if (horizMove > 0 && rightGroundCheck.IsDetected()) { moveVector += transform.right * sideSpeedMultiplier; }
                 if (horizMove < 0 && leftGroundCheck.IsDetected()) { moveVector += -transform.right * sideSpeedMultiplier; }
             }
@@ -100,6 +99,23 @@ namespace Project.Control
             playerRB.velocity = new Vector3(moveVector.x, playerRB.velocity.y, moveVector.z);
         }
 
+        void GroundCheck()
+        {
+            UpdateEmitterNum();
+            GetCurrentDetector();
+
+            Vector3 origin = groundCheckEmitter.position;
+            Vector3 direction = currentDetector.transform.position - groundCheckEmitter.position;
+            float maxDistance = Vector3.Distance(currentDetector.transform.position, groundCheckEmitter.position);
+
+            bool groundHit = Physics.Raycast(origin, direction, maxDistance, groundLayer);
+
+            //If player jump, breaks GroundCheck
+            if (!groundCheckEnable) groundHit = true;
+
+            currentDetector.Detect(groundHit);
+        }
+
         //Counts emitters by each frame
         void UpdateEmitterNum()
         {
@@ -110,28 +126,12 @@ namespace Project.Control
             }
         }
 
-        void GroundCheck()
+        private void GetCurrentDetector()
         {
-            UpdateEmitterNum();
-
             if (emitterNum == 1) { currentDetector = forwardGroundCheck; }
-            if (emitterNum == 2) { currentDetector = rearGroundCheck; }
+            if (emitterNum == 2) { currentDetector = backGroundCheck; }
             if (emitterNum == 3) { currentDetector = rightGroundCheck; }
             if (emitterNum == 4) { currentDetector = leftGroundCheck; }
-
-            Vector3 origin = groundCheckEmitter.position;
-            Vector3 direction = currentDetector.transform.position - groundCheckEmitter.position;
-            float maxDistance = Vector3.Distance(currentDetector.transform.position, groundCheckEmitter.position);
-
-            bool groundHit = Physics.Raycast(origin, direction, maxDistance, groundLayer);
-
-            //If player jump, breaks GroundCheck
-            if (!groundCheckEnable)
-            {
-                groundHit = true;
-            }
-
-            currentDetector.Detect(groundHit);
         }
 
         //Raycast under player to check if can jump
@@ -152,10 +152,12 @@ namespace Project.Control
         IEnumerator StopGroundCheck()
         {
             groundCheckEnable = false;
+
             yield return new WaitForSeconds(.2f);
+
             while (!groundCheckEnable)
             {
-                if(isGrounded) groundCheckEnable = true;
+                if (isGrounded) groundCheckEnable = true;
                 yield return null;
             }
         }

@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c04aa141319a4c4d8e195c5bffed29f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showGroundCheckStatus: 0
   detectedMaterial: {fileID: 2100000, guid: fcec2227cdf298640954c9afad2721fd, type: 2}
   undetectedMaterial: {fileID: 2100000, guid: 67a2b31ad24ced044b62af6ea1f1d11e, type: 2}
 --- !u!1 &4643940792268724368
@@ -166,7 +167,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5077273004310624363}
   - component: {fileID: 4643940792268724369}
-  - component: {fileID: 4643940792268724383}
   - component: {fileID: 4576083273972833065}
   - component: {fileID: 2673307848721835398}
   m_Layer: 0
@@ -217,24 +217,10 @@ MonoBehaviour:
     m_Bits: 256
   groundCheckEmitter: {fileID: 5122982855112530375}
   forwardGroundCheck: {fileID: 2986771320347998167}
-  rearGroundCheck: {fileID: 631463782644798264}
+  backGroundCheck: {fileID: 631463782644798264}
   leftGroundCheck: {fileID: 3863698070074091807}
   rightGroundCheck: {fileID: 7351069962971791580}
   uiDisplay: {fileID: 0}
---- !u!136 &4643940792268724383
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4643940792268724368}
-  m_Material: {fileID: 13400000, guid: e1310df081a1d634b891702802df5b3c, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &4576083273972833065
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -356,6 +342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c04aa141319a4c4d8e195c5bffed29f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showGroundCheckStatus: 0
   detectedMaterial: {fileID: 2100000, guid: fcec2227cdf298640954c9afad2721fd, type: 2}
   undetectedMaterial: {fileID: 2100000, guid: 67a2b31ad24ced044b62af6ea1f1d11e, type: 2}
 --- !u!1 &5694168442743138975
@@ -553,7 +540,7 @@ GameObject:
   - component: {fileID: 4604390177121407897}
   - component: {fileID: 631463782644798264}
   m_Layer: 0
-  m_Name: GroundCheckRear
+  m_Name: GroundCheckBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -632,6 +619,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c04aa141319a4c4d8e195c5bffed29f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showGroundCheckStatus: 0
   detectedMaterial: {fileID: 2100000, guid: fcec2227cdf298640954c9afad2721fd, type: 2}
   undetectedMaterial: {fileID: 2100000, guid: 67a2b31ad24ced044b62af6ea1f1d11e, type: 2}
 --- !u!1 &7585334036313828668
@@ -726,6 +714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c04aa141319a4c4d8e195c5bffed29f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showGroundCheckStatus: 0
   detectedMaterial: {fileID: 2100000, guid: fcec2227cdf298640954c9afad2721fd, type: 2}
   undetectedMaterial: {fileID: 2100000, guid: 67a2b31ad24ced044b62af6ea1f1d11e, type: 2}
 --- !u!1 &7846436725819337514

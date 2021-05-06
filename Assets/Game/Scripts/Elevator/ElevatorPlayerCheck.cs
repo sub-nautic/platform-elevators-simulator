@@ -9,7 +9,7 @@ namespace Project.Elevators
         
         private void OnTriggerEnter(Collider other)
         {
-            if(other.gameObject.tag == "Player")
+            if (other.gameObject.tag == "Player")
             {
                 playerTransformParent = other.transform.parent;
                 other.transform.parent = transform;

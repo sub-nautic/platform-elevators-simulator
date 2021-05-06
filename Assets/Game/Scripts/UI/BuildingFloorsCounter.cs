@@ -12,9 +12,8 @@ public class BuildingFloorsCounter : MonoBehaviour
     [Tooltip("UI whitch display player current floor number")]
     [SerializeField] TextMeshProUGUI floorTextToDisplay;
 
-    PlayerMoverRB player;
+    PlayerMover player;
     float atFloor;
-
     float thirdFloor, secondFloor, firstFloor;
 
     bool isPlayerInBuilding = false;
@@ -25,47 +24,56 @@ public class BuildingFloorsCounter : MonoBehaviour
         secondFloor = floors.GetFloor(2).y;
         firstFloor = floors.GetFloor(1).y;
     }
-    
+
     void Update()
     {
-        PlayerInBuilding();
+        HandlePlayerInBuilding();
     }
 
-    void PlayerInBuilding()
+    void HandlePlayerInBuilding()
     {
-        if(!isPlayerInBuilding) return;
+        if (!isPlayerInBuilding) return;
 
         atFloor = player.transform.position.y;
+        DisplayFloorText();
+    }
 
-        OnWithFloor();
-
-        if(OnWithFloor() == 0)
+    private void DisplayFloorText()
+    {
+        if (GetCurrentFloor() == 0)
         {
-            floorTextToDisplay.text = "ground floor".ToString();
+            DisplayGroundFloorText();
             return;
         }
-        floorTextToDisplay.text = OnWithFloor().ToString();      
+        floorTextToDisplay.text = GetCurrentFloor().ToString();
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Player")
-        {
-            isPlayerInBuilding = true;
-            player = other.gameObject.GetComponent<PlayerMoverRB>();
-        }
-    }
-    
-    void OnTriggerExit(Collider other)
-    {
-        if(other.gameObject.tag == "Player")
-        {
-            isPlayerInBuilding = false;
-            floorTextToDisplay.text = "ground floor".ToString();
-        }
+        if (!HasPlayerTag(other)) return;
+        isPlayerInBuilding = true;
+
+        player = other.gameObject.GetComponent<PlayerMover>();
     }
 
-    int OnWithFloor()
+    void OnTriggerExit(Collider other)
+    {
+        if (!HasPlayerTag(other)) return;
+        isPlayerInBuilding = false;
+        DisplayGroundFloorText();
+    }
+
+    bool HasPlayerTag(Collider other)
+    {
+        return other.gameObject.tag == "Player";
+    }
+
+    void DisplayGroundFloorText()
+    {
+        floorTextToDisplay.text = "ground floor".ToString();
+    }
+
+    int GetCurrentFloor()
     {
         switch (atFloor)
         {

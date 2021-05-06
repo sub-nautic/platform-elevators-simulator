@@ -7,11 +7,11 @@ namespace Project.Control
         [SerializeField] bool showGroundCheckStatus;
         [SerializeField] Material detectedMaterial;
         [SerializeField] Material undetectedMaterial;
-        
+
         private MeshRenderer rend;
-        
+
         private bool detection = false;
-        
+
         void Start()
         {
             rend = GetComponent<MeshRenderer>();
@@ -20,7 +20,7 @@ namespace Project.Control
         public void Detect(bool raycastResult)
         {
             detection = raycastResult;
-            if(showGroundCheckStatus)
+            if (showGroundCheckStatus)
             {
                 if (detection)
                 {

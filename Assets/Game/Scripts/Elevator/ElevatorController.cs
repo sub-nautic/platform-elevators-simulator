@@ -13,20 +13,17 @@ namespace Project.Elevators
         [SerializeField] float dwellingAtFloorTime = 1f;
         [SerializeField] float waitInIdleState = 10f;
         [SerializeField] ElevatorPath elevatorPath;
-        
-        Vector3 elevatorPos;
 
-        ElevatorMover elevatorMover;
+        Vector3 elevatorPos;
         Vector3 calledElevatorDestination;
-        
-        float elevatorTolerance = 1f;
+        ElevatorMover elevatorMover;
+        float elevatorTolerance;
+        int SelectedDestinationIndex;
 
         float timeSinceArrivedAtFloor = Mathf.Infinity;
         int currentFloorIndex = 0;
         bool isElevatorCalled = false;
 
-        int selectedDestination;
-        
         void Awake()
         {
             elevatorMover = GetComponent<ElevatorMover>();
@@ -36,15 +33,14 @@ namespace Project.Elevators
 
         void Start()
         {
-            if(isPlatform) elevatorTolerance = 0.0001f;
-            else elevatorTolerance = 1f;
+            elevatorTolerance = isPlatform ? 0.0001f : 1f;
         }
 
         void Update()
         {
-            if(isElevatorCalled)
+            if (isElevatorCalled)
             {
-                MoveToPlayerSelectedFloor(selectedDestination);
+                MoveToPlayerSelectedFloor(SelectedDestinationIndex);
             }
             else
             {
@@ -54,36 +50,32 @@ namespace Project.Elevators
 
             timeSinceArrivedAtFloor += Time.deltaTime;
         }
-        
-        public bool IsElevatorCalled(bool isCalled){ return isElevatorCalled = isCalled; }
+
+        public bool IsElevatorCalled(bool isCalled) { return isElevatorCalled = isCalled; }
         public void MoveToPlayerSelectedFloor(int floorIndex)
-        {            
-            selectedDestination = floorIndex;
-            if(!isPlatform)
+        {
+            SelectedDestinationIndex = floorIndex;
+            if (!isPlatform)
             {
-                calledElevatorDestination = GetCurrentFloor(selectedDestination) - Vector3.up;
-                //print("Elevator is called");
+                calledElevatorDestination = GetCurrentFloor(SelectedDestinationIndex) - Vector3.up;
             }
             else
             {
-                calledElevatorDestination = GetCurrentFloor(selectedDestination);
-                //print("Platform is called");
+                calledElevatorDestination = GetCurrentFloor(SelectedDestinationIndex);
             }
-
             elevatorMover.StartMoveAction(calledElevatorDestination, elevatorSpeedFraction);
-
             Vector3 newPosition = calledElevatorDestination;
 
             //When elevator will be on destination floor time will start counting
-            if (newPosition != transform.position){ timeSinceArrivedAtFloor = 0; }
-            
+            if (newPosition != transform.position) { timeSinceArrivedAtFloor = 0; }
+
             //If in destination position            
-            if(newPosition == transform.position)
+            if (newPosition == transform.position)
             {
-                if(timeSinceArrivedAtFloor > waitInIdleState)
+                if (timeSinceArrivedAtFloor > waitInIdleState)
                 {
                     isElevatorCalled = false;
-                }                
+                }
                 //print(gameObject.name + " - Im at destination point");
             }
         }
@@ -94,12 +86,12 @@ namespace Project.Elevators
 
             if (elevatorPath != null)
             {
-                if (AtFloor())
+                if (IsAtFloor())
                 {
                     timeSinceArrivedAtFloor = 0;
                     CycleFloor();
                 }
-                nextPosition = GetCurrentFloor();                
+                nextPosition = GetCurrentFloor();
             }
             if (timeSinceArrivedAtFloor > dwellingAtFloorTime)
             {
@@ -107,7 +99,7 @@ namespace Project.Elevators
             }
         }
 
-        bool AtFloor()
+        bool IsAtFloor()
         {
             float distanceToPoint = Vector3.Distance(transform.position, GetCurrentFloor());
             return distanceToPoint < elevatorTolerance;
@@ -121,7 +113,7 @@ namespace Project.Elevators
         Vector3 GetCurrentFloor()
         {
             //Tweak elevator position at index(0)
-            if(currentFloorIndex == 0 && !isPlatform)
+            if (currentFloorIndex == 0 && !isPlatform)
             {
                 Vector3 correctingElevator = elevatorPath.GetFloor(currentFloorIndex) + (Vector3.down * 2);
                 return correctingElevator;
