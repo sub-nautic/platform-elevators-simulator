@@ -38,6 +38,9 @@ namespace Project.Control
 
         bool groundCheckEnable = true;
 
+        bool canMove = true;
+        public bool CanMove(bool set) { return canMove = set; }
+
         void Awake()
         {
             playerRB = GetComponent<Rigidbody>();
@@ -61,18 +64,21 @@ namespace Project.Control
             Moving();
         }
 
-        private void Jumping()
+        void Jumping()
         {
             if (Input.GetButtonDown("Jump") && isGrounded)
             {
                 StartCoroutine(StopGroundCheck());
+                canMove = false;
                 playerRB.velocity = new Vector3(playerRB.velocity.x, jumpHeight, playerRB.velocity.z);
                 uiDisplay.AddJumpCounter();
             }
         }
 
-        private void Moving()
+        void Moving()
         {
+            if (!canMove) return;
+
             float vertMove = Input.GetAxis("Vertical");
             float horizMove = Input.GetAxis("Horizontal");
 
@@ -126,7 +132,7 @@ namespace Project.Control
             }
         }
 
-        private void GetCurrentDetector()
+        void GetCurrentDetector()
         {
             if (emitterNum == 1) { currentDetector = forwardGroundCheck; }
             if (emitterNum == 2) { currentDetector = backGroundCheck; }
@@ -149,7 +155,7 @@ namespace Project.Control
         }
 
         //Stopping checking edge till player hit ground
-        IEnumerator StopGroundCheck()
+        public IEnumerator StopGroundCheck()
         {
             groundCheckEnable = false;
 
@@ -157,7 +163,11 @@ namespace Project.Control
 
             while (!groundCheckEnable)
             {
-                if (isGrounded) groundCheckEnable = true;
+                if (isGrounded)
+                {
+                    groundCheckEnable = true;
+                    canMove = true;
+                }
                 yield return null;
             }
         }
