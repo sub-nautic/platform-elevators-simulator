@@ -144,7 +144,7 @@ namespace Project.Control
         void HaveFootsOnGround()
         {
             RaycastHit hit;
-            if (Physics.Raycast(transform.position + (Vector3.up * 0.05f), -Vector3.up, out hit, distToGround + 0.1f))
+            if (Physics.Raycast(transform.position + (Vector3.up * 0.05f), -Vector3.up, out hit, distToGround + 0.1f, groundLayer))
             {
                 isGrounded = true;
             }

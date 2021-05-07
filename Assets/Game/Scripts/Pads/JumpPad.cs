@@ -3,38 +3,41 @@ using System.Collections.Generic;
 using Project.Control;
 using UnityEngine;
 
-public class JumpPad : MonoBehaviour
+namespace Project.Pads
 {
-    [SerializeField] float jumpForce = 300f;
-    [SerializeField] float horizontalDirectionSpeed = 0f;
-    [SerializeField] float verticalDirectionSpeed = 0f;
-
-    PlayerMover playerMover;
-    Rigidbody playerRB;
-
-    bool isFired = false;
-
-    void OnTriggerEnter(Collider other)
+    public class JumpPad : MonoBehaviour
     {
-        if (other.gameObject.tag == "Player" && !isFired)
+        [SerializeField] float jumpForce = 300f;
+        [SerializeField] float horizontalDirectionSpeed = 0f;
+        [SerializeField] float verticalDirectionSpeed = 0f;
+
+        PlayerMover playerMover;
+        Rigidbody playerRB;
+
+        bool isFired = false;
+
+        void OnTriggerEnter(Collider other)
         {
-            playerMover = other.gameObject.GetComponent<PlayerMover>();
-            playerRB = playerMover.GetComponent<Rigidbody>();
+            if (other.gameObject.tag == "Player" && !isFired)
+            {
+                playerMover = other.gameObject.GetComponent<PlayerMover>();
+                playerRB = playerMover.GetComponent<Rigidbody>();
 
-            StartCoroutine(playerMover.StopGroundCheck());
-            playerMover.CanMove(false);
+                StartCoroutine(playerMover.StopGroundCheck());
+                playerMover.CanMove(false);
 
-            playerMover.transform.position = transform.position + Vector3.up;
+                playerMover.transform.position = transform.position + Vector3.up;
 
-            playerRB.velocity = new Vector3(horizontalDirectionSpeed, 0, verticalDirectionSpeed);
-            playerRB.AddForce(Vector3.up * jumpForce);
-            isFired = true;
+                playerRB.velocity = new Vector3(horizontalDirectionSpeed, 0, verticalDirectionSpeed);
+                playerRB.AddForce(Vector3.up * jumpForce);
+                isFired = true;
+            }
         }
-    }
 
-    void OnTriggerExit(Collider other)
-    {
-        playerMover = null;
-        isFired = false;
+        void OnTriggerExit(Collider other)
+        {
+            playerMover = null;
+            isFired = false;
+        }
     }
 }
