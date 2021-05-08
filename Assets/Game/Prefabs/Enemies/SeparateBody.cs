@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class SeparateBody : MonoBehaviour
 {
+    [SerializeField] BodyPart leftFoot;
+    [SerializeField] BodyPart rightFoot;
+
     [Header("Main parts")]
     [SerializeField] GameObject head = null;
     [SerializeField] GameObject chest = null;
@@ -24,10 +27,22 @@ public class SeparateBody : MonoBehaviour
     [SerializeField] GameObject lShin = null;
     [SerializeField] GameObject lThigh = null;
 
-    [SerializeField] GameObject ex;
+    bool isLeftFootDestroyed;
+    bool isRightFootDestroyed;
 
-    private void Start()
+    private void Update()
     {
-        Instantiate(ex, head.transform.position, Quaternion.identity);
+        CheckFootsStatus();
+    }
+
+    void CheckFootsStatus()
+    {
+        isLeftFootDestroyed = leftFoot.Status();
+        isRightFootDestroyed = rightFoot.Status();
+
+        if (isLeftFootDestroyed && isRightFootDestroyed)
+        {
+            GetComponentInChildren<BodyPart>().DamageBodyPart();
+        }
     }
 }

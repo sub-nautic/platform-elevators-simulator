@@ -205,6 +205,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e828ada55d3853643991a5e2af35004c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftFoot: {fileID: 3860800370116174309}
+  rightFoot: {fileID: 123070677742345674}
   head: {fileID: 8236799414269370895}
   chest: {fileID: 8236799414269370989}
   rHand: {fileID: 8236799414269370997}
@@ -219,7 +221,6 @@ MonoBehaviour:
   lFoot: {fileID: 8236799414269370985}
   lShin: {fileID: 8236799414269370979}
   lThigh: {fileID: 8236799414269370977}
-  ex: {fileID: 0}
 --- !u!1 &8236799414269370895
 GameObject:
   m_ObjectHideFlags: 0
