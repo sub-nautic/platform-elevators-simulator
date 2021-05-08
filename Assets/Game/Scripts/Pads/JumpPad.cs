@@ -25,6 +25,7 @@ namespace Project.Pads
 
                 StartCoroutine(playerMover.StopGroundCheck());
                 playerMover.CanMove(false);
+                GetComponent<AudioSource>().Play();
 
                 playerMover.transform.position = transform.position + Vector3.up;
 

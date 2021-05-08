@@ -56,6 +56,7 @@ namespace Project.Control
             HaveFootsOnGround();
             GroundCheck();
             Movement();
+            print(canMove);
         }
 
         void Movement()

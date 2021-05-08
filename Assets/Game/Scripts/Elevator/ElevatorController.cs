@@ -17,6 +17,7 @@ namespace Project.Elevators
         Vector3 elevatorPos;
         Vector3 calledElevatorDestination;
         ElevatorMover elevatorMover;
+        AudioPlayer audioPlayer;
         float elevatorTolerance;
         int SelectedDestinationIndex;
 
@@ -27,6 +28,7 @@ namespace Project.Elevators
         void Awake()
         {
             elevatorMover = GetComponent<ElevatorMover>();
+            audioPlayer = GetComponent<AudioPlayer>();
 
             elevatorPos = transform.position;
         }
@@ -68,13 +70,17 @@ namespace Project.Elevators
 
             //When elevator will be on destination floor time will start counting
             if (newPosition != transform.position) { timeSinceArrivedAtFloor = 0; }
+            audioPlayer.PlayDefaultAudio();
+            audioPlayer.PlayDiffrentAudio(0);
 
             //If in destination position            
             if (newPosition == transform.position)
             {
+                audioPlayer.StopAudio();
                 if (timeSinceArrivedAtFloor > waitInIdleState)
                 {
                     isElevatorCalled = false;
+                    audioPlayer.PlayDiffrentAudio(0);
                 }
                 //print(gameObject.name + " - Im at destination point");
             }
@@ -97,6 +103,7 @@ namespace Project.Elevators
             {
                 elevatorMover.StartMoveAction(nextPosition, elevatorSpeedFraction);
             }
+            audioPlayer.PlayDefaultAudio();
         }
 
         bool IsAtFloor()
