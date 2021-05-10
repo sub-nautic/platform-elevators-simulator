@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4388989645033883563}
   m_Layer: 0
   m_Name: Skeleton
-  m_TagString: Untagged
+  m_TagString: Skeleton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5e1f80fee255fc46bc5ad7f796e0039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 5
+  maxSpeed: 4
   maxNavPathLength: 40
 --- !u!114 &8202042157040338704
 MonoBehaviour:
@@ -205,8 +205,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e828ada55d3853643991a5e2af35004c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftFoot: {fileID: 3860800370116174309}
-  rightFoot: {fileID: 123070677742345674}
   head: {fileID: 8236799414269370895}
   chest: {fileID: 8236799414269370989}
   rHand: {fileID: 8236799414269370997}
@@ -221,6 +219,10 @@ MonoBehaviour:
   lFoot: {fileID: 8236799414269370985}
   lShin: {fileID: 8236799414269370979}
   lThigh: {fileID: 8236799414269370977}
+  CoreBodyPart: {fileID: 5555374754703103572}
+  leftFoot: {fileID: 3860800370116174309}
+  rightFoot: {fileID: 123070677742345674}
+  oneLegSpeed: 5.6
 --- !u!1 &8236799414269370895
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,7 +405,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myMeshs:
   - {fileID: 8236799414266195701}
-  replacer: {fileID: 4413511266905994393, guid: 759d3576e8b714c47be38c986e681468,
+  replacer: {fileID: 8335595919110742731, guid: 4a49bbd8c339f04469f2cf168eac12d7,
     type: 3}
   linkedParts:
   - {fileID: 123070677742345674}
@@ -835,7 +837,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myMeshs:
   - {fileID: 8236799414266195699}
-  replacer: {fileID: 8324165355695828322, guid: f521ca9e30600cb488aa0f7413dca75c,
+  replacer: {fileID: 6273851776539784627, guid: a6ed89b6f1446ef45a0613ec5f35f00a,
     type: 3}
   linkedParts:
   - {fileID: 4582168075080019619}
@@ -3390,7 +3392,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myMeshs:
   - {fileID: 8236799414266195683}
-  replacer: {fileID: 2909666429072201960, guid: 33f944e000517fa4e8c46d5fac14f937,
+  replacer: {fileID: 6849061903270916285, guid: ecdcc2ade21351048bb87590d05b6d03,
     type: 3}
   linkedParts:
   - {fileID: 7409450362407532444}
@@ -3517,7 +3519,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myMeshs:
   - {fileID: 8236799414266195685}
-  replacer: {fileID: 1606936824847081124, guid: 433da2debc8f00c4fa2ac28ed7c903a7,
+  replacer: {fileID: 8403860928294977102, guid: 3618617657f8a8c40a3ce88596dba556,
     type: 3}
   linkedParts:
   - {fileID: 3860800370116174309}
@@ -3587,8 +3589,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myMeshs:
   - {fileID: 8236799414266195703}
-  replacer: {fileID: 6274973786997957289, guid: d6e116bb7d69fad4795bca40e3597550,
-    type: 3}
+  replacer: {fileID: 430018140658623120, guid: 0526536e219bc6d48ae04ae13bede66f, type: 3}
   linkedParts: []
 --- !u!136 &5243149241413771086
 CapsuleCollider:
@@ -3651,7 +3652,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myMeshs:
   - {fileID: 8236799414266195705}
-  replacer: {fileID: 3725806082599424826, guid: f93be8d51ae1a4a4d95fd07113c9a84e,
+  replacer: {fileID: 5866708869453571375, guid: 075763d2bb5a18f40af53b5b4eaa4475,
     type: 3}
   linkedParts:
   - {fileID: 6031241241272035080}
@@ -3716,7 +3717,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myMeshs:
   - {fileID: 8236799414266195707}
-  replacer: {fileID: 7012746369969443536, guid: 92ecbd5d7ead1e54d9d7529adc768225,
+  replacer: {fileID: 7217214010809851558, guid: b65e7a9cf4e5fbc459e28b1f4ec2282d,
     type: 3}
   linkedParts: []
 --- !u!136 &8529729478815542851
@@ -3780,7 +3781,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myMeshs:
   - {fileID: 8236799414266195709}
-  replacer: {fileID: 4955001436657132543, guid: 29abde7516e731c4190a7181a26b7797,
+  replacer: {fileID: 1590339589412559510, guid: 6339ecdccdc4bea468c601ba75418326,
     type: 3}
   linkedParts:
   - {fileID: 7342509287276633887}
@@ -4234,7 +4235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myMeshs:
   - {fileID: 8236799414266195689}
-  replacer: {fileID: 7699543333296110358, guid: 7ee5147b94c0e0a42bccc3d48b3700e0,
+  replacer: {fileID: 2513498408609907939, guid: 2825859c402d2c342ae5be173035aa2e,
     type: 3}
   linkedParts:
   - {fileID: 3881352496917367390}
@@ -4299,7 +4300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myMeshs:
   - {fileID: 8236799414266195691}
-  replacer: {fileID: 3511755353064543783, guid: 0406a616c6e65d24e8862e17adcc2c1c,
+  replacer: {fileID: 5497257081586490383, guid: db8bc12c4ca73914cb51539aa6e1f860,
     type: 3}
   linkedParts: []
 --- !u!136 &2425707033335827625
@@ -4363,7 +4364,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myMeshs:
   - {fileID: 8236799414266195693}
-  replacer: {fileID: 1709622023915445548, guid: 4c8e894a2ca88004fa37f42ebcfcb525,
+  replacer: {fileID: 2783261874646838660, guid: b34106fbaaa0b2d42a7f4d94b301180f,
     type: 3}
   linkedParts:
   - {fileID: 4302236062899254406}
@@ -4492,7 +4493,7 @@ MonoBehaviour:
   myMeshs:
   - {fileID: 8236799414266195695}
   - {fileID: 8236799414266195711}
-  replacer: {fileID: 8909872161178959253, guid: 22fa5c41d12f6ae46b69b1015fbe1bf5,
+  replacer: {fileID: 7503522832018843566, guid: 2b54f951152791547b3d8944d91b682c,
     type: 3}
   linkedParts:
   - {fileID: 1336513498004361974}
@@ -4569,7 +4570,7 @@ MonoBehaviour:
   myMeshs:
   - {fileID: 8236799414266195697}
   - {fileID: 8236799414266195681}
-  replacer: {fileID: 2240835227808846164, guid: 983e601e06f43af4bba0ca9e3302b598,
+  replacer: {fileID: 1328552478416077684, guid: cbf864457d5521a4199fe824ed2602ff,
     type: 3}
   linkedParts: []
 --- !u!136 &3175062628430355081
@@ -4883,7 +4884,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myMeshs:
   - {fileID: 8236799414266195687}
-  replacer: {fileID: 7912745227667150070, guid: a0e90726d7be64c4fb0c90ebbfbe10b4,
+  replacer: {fileID: 1974676481622567536, guid: 589bb57b979000a4f8ba5417e610b6f2,
     type: 3}
   linkedParts: []
 --- !u!136 &9048120761535549689

@@ -19,7 +19,7 @@ namespace RPG.Attributes
         {
 
         }
-        
+
         LazyValue<float> healthPoints;
 
         bool isDead = false;
@@ -36,7 +36,7 @@ namespace RPG.Attributes
 
         void Start()
         {
-            healthPoints.ForceInit();            
+            healthPoints.ForceInit();
         }
 
         void OnEnable()
@@ -57,10 +57,10 @@ namespace RPG.Attributes
         public void TakeDamage(GameObject instigator, float damage)
         {
             // jeżeli wartość damage jest wyższa niż health zwraca 0f
-            healthPoints.value = Mathf.Max(healthPoints.value - damage, 0f);            
+            healthPoints.value = Mathf.Max(healthPoints.value - damage, 0f);
             takeDamage.Invoke(damage);
 
-            if(healthPoints.value == 0f)
+            if (healthPoints.value == 0f)
             {
                 Die();
                 AwardExperience(instigator);
@@ -93,29 +93,30 @@ namespace RPG.Attributes
             return healthPoints.value / GetComponent<BaseStats>().GetStat(Stat.Health);
         }
 
+        //changed
+        public void Die()
+        {
+            if (isDead) return;
+
+            isDead = true;
+            GetComponent<Animator>().SetTrigger("die");
+            GetComponent<ActionScheduler>().CancelCurrentAction();
+        }
+
         void RegenerateHealth()
         {
             float regenHealthPoints = GetComponent<BaseStats>().GetStat(Stat.Health) * regenerationPercentage / 100f;
             healthPoints.value = Mathf.Max(healthPoints.value, regenHealthPoints); //regenerate health to serialized value 
-            
+
             //healthPoints = GetComponent<BaseStats>().GetStat(Stat.Health); regenerate to max health
         }
 
         void AwardExperience(GameObject instigator)
         {
             Experience experience = instigator.GetComponent<Experience>();
-            if(experience == null) return;
+            if (experience == null) return;
 
             experience.GainExperience(GetComponent<BaseStats>().GetStat(Stat.ExperienceReward));
-        }
-
-        void Die()
-        {
-            if(isDead) return;
-
-            isDead = true;
-            GetComponent<Animator>().SetTrigger("die");
-            GetComponent<ActionScheduler>().CancelCurrentAction();
         }
 
         public object CaptureState()
@@ -126,7 +127,7 @@ namespace RPG.Attributes
         public void RestoreState(object state)
         {
             healthPoints.value = (float)state;
-            
+
             if (healthPoints.value == 0f)
             {
                 Die();

@@ -15,9 +15,9 @@ namespace RPG.Combat
         [Tooltip("time to destroy GameObject in hierarchy")]
         [SerializeField] float lifeAfterImpact = 2f;
         [SerializeField] UnityEvent onHit;
-        
+
         float damage = 0f;
-        
+
         Health target = null;
         GameObject instigator = null;
 
@@ -28,12 +28,12 @@ namespace RPG.Combat
 
         void Update()
         {
-            if (target == null) return;           
-            if(isHoming && !target.IsDead())
+            if (target == null) return;
+            if (isHoming && !target.IsDead())
             {
                 transform.LookAt(GetAimLocation());
             }
-            transform.Translate(Vector3.forward * speed * Time.deltaTime);                
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
         }
 
         public void SetTarget(Health target, GameObject instigator, float damage)
@@ -49,7 +49,7 @@ namespace RPG.Combat
         {
             //set where projectile should hit on the target
             CapsuleCollider targetCapsule = target.GetComponent<CapsuleCollider>();
-            if(targetCapsule == null)
+            if (targetCapsule == null)
             {
                 return target.transform.position;
             }
@@ -58,27 +58,32 @@ namespace RPG.Combat
 
         void OnTriggerEnter(Collider other)
         {
+            if (other.gameObject.tag == "Skeleton")
+            {
+                //todo 
+            }
+
             if (other.GetComponent<Health>() != target) return;
             if (target.IsDead()) return;
-            
-            target.TakeDamage(instigator ,damage);
+
+            target.TakeDamage(instigator, damage);
 
             speed = 0f;
 
             onHit.Invoke();
-            
-            if(hitEffect != null)
+
+            if (hitEffect != null)
             {
                 Instantiate(hitEffect, GetAimLocation(), transform.rotation);
             }
 
             //destroy this objects on trigger immediately and then rest after some time
-            foreach(GameObject toDestroy in destroyOnHit)
+            foreach (GameObject toDestroy in destroyOnHit)
             {
                 Destroy(toDestroy);
             }
 
             Destroy(gameObject, lifeAfterImpact);
-        }        
+        }
     }
 }

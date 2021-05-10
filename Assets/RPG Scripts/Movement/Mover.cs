@@ -9,8 +9,8 @@ namespace RPG.Movement
     public class Mover : MonoBehaviour, IAction, ISaveable
     {
         [SerializeField] float maxSpeed = 6f;
-        [SerializeField] float maxNavPathLength = 40f;    
-        
+        [SerializeField] float maxNavPathLength = 40f;
+
         NavMeshAgent myNav;
         Animator myAnimator;
         ActionScheduler myActionScheduler;
@@ -27,14 +27,14 @@ namespace RPG.Movement
         void Update()
         {
             myNav.enabled = !health.IsDead();
-            
+
             UpdateAnimator();
         }
 
         public void StartMoveAction(Vector3 destination, float speedFraction)
         {
             myActionScheduler.StartAction(this);
-            MoveTo(destination, speedFraction);          
+            MoveTo(destination, speedFraction);
         }
 
         public bool CanMoveTo(Vector3 destination)
@@ -47,7 +47,7 @@ namespace RPG.Movement
 
             return true;
         }
-        
+
         public void MoveTo(Vector3 destination, float speedFraction)
         {
             myNav.destination = destination;
@@ -55,10 +55,16 @@ namespace RPG.Movement
             myNav.isStopped = false;
         }
 
+        public void SetMaxSpeed(float value)
+        {
+            maxSpeed = value;
+        }
+
         public void Cancel()
         {
             myNav.isStopped = true;
         }
+
 
         float GetPathLength(NavMeshPath path)
         {
