@@ -2,49 +2,52 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SeparateBodyPart : MonoBehaviour
+namespace Project.DestructableElements
 {
-    [SerializeField] ParticleSystem vfx = null;
-
-    Vector3 currentPos;
-    Vector3 BodyCurrentPos;
-    float t;
-    bool isSeparated = false;
-
-    private void Start()
+    public class SeparateBodyPart : MonoBehaviour
     {
-        StartVFX();
-    }
+        [SerializeField] ParticleSystem vfx = null;
 
-    private void Update()
-    {
-        if (isSeparated)
+        Vector3 currentPos;
+        Vector3 BodyCurrentPos;
+        float t;
+        bool isSeparated = false;
+
+        private void Start()
         {
-            transform.position = Vector3.Lerp(currentPos, BodyCurrentPos, t);
+            StartVFX();
         }
-    }
 
-    public void PartPos(Vector3 otherPos)
-    {
-        BodyCurrentPos = otherPos;
-    }
-
-    public IEnumerator MoveToPosition(float timeToMove)
-    {
-        currentPos = transform.position;
-        t = 0f;
-        while (t < 1)
+        private void Update()
         {
-            t += Time.deltaTime / timeToMove;
-            isSeparated = true;
-            yield return null;
+            if (isSeparated)
+            {
+                transform.position = Vector3.Lerp(currentPos, BodyCurrentPos, t);
+            }
         }
-        Destroy(gameObject);
-    }
 
-    private void StartVFX()
-    {
-        if (vfx == null) return;
-        vfx.Play();
+        public void PartPos(Vector3 otherPos)
+        {
+            BodyCurrentPos = otherPos;
+        }
+
+        public IEnumerator MoveToPosition(float timeToMove)
+        {
+            currentPos = transform.position;
+            t = 0f;
+            while (t < 1)
+            {
+                t += Time.deltaTime / timeToMove;
+                isSeparated = true;
+                yield return null;
+            }
+            Destroy(gameObject);
+        }
+
+        private void StartVFX()
+        {
+            if (vfx == null) return;
+            vfx.Play();
+        }
     }
 }
