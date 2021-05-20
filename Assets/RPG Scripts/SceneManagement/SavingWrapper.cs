@@ -10,31 +10,31 @@ namespace RPG.SceneManagement
     {
         const string defaultSaveFile = "save";
         [SerializeField] float fadeInTime = 0.2f;
-        
+
         void Awake()
         {
             StartCoroutine(LoadLastScene());
         }
-        
+
         IEnumerator LoadLastScene()
-        {            
+        {
             yield return GetComponent<SavingSystem>().LoadLastScene(defaultSaveFile);
             Fader fader = FindObjectOfType<Fader>();
             fader.FadeOutImmediate(); //set Alpha canvas to 1
             yield return fader.FadeIn(fadeInTime);
         }
-        
+
         void Update()
         {
-            if(Input.GetKeyDown(KeyCode.L))
+            if (Input.GetKeyDown(KeyCode.L))
             {
                 Load();
             }
-            if (Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKeyDown(KeyCode.K))
             {
                 Save();
             }
-            if(Input.GetKeyDown(KeyCode.Delete))
+            if (Input.GetKeyDown(KeyCode.Delete))
             {
                 Delete();
             }

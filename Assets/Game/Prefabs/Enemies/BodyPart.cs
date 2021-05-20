@@ -10,6 +10,7 @@ namespace Project.DestructableElements
         [SerializeField] GameObject replacer;
         [SerializeField] BodyPart[] linkedParts = null;
 
+
         GameObject createdDisconectPart;
         SeparateBodyPart detachedPart;
         Vector3 currentPos;

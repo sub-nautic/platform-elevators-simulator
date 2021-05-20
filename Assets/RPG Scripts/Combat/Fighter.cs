@@ -15,8 +15,10 @@ namespace RPG.Combat
         [SerializeField] float timeBetweenAttacks = 1f;
         [SerializeField] Transform rightHandTransform = null;
         [SerializeField] Transform leftHandTransform = null;
-        [SerializeField] WeaponConfig defaultWeapon = null; 
-        
+        [SerializeField] WeaponConfig defaultWeapon = null;
+
+        float turnSpeed = 5f;
+
         Health target;
         float timeSinceLastAttack = Mathf.Infinity;
         WeaponConfig currentWeaponConfig;
@@ -29,7 +31,7 @@ namespace RPG.Combat
         }
 
         Weapon SetupDefaultWeapon()
-        {            
+        {
             return AttachWeapon(defaultWeapon);
         }
 
@@ -41,9 +43,9 @@ namespace RPG.Combat
         void Update()
         {
             timeSinceLastAttack += Time.deltaTime;
-            
-            if(target == null) return;
-            if(target.IsDead()) return;
+
+            if (target == null) return;
+            if (target.IsDead()) return;
 
             if (!GetIsInRange(target.transform))
             {
@@ -52,7 +54,7 @@ namespace RPG.Combat
             else
             {
                 GetComponent<Mover>().Cancel();
-                AttackBehaviour();          
+                AttackBehaviour();
             }
         }
 
@@ -75,12 +77,20 @@ namespace RPG.Combat
 
         void AttackBehaviour()
         {
-            transform.LookAt(target.transform);
+            //transform.LookAt(target.transform);
+            FaceTarget();
             if (timeSinceLastAttack > timeBetweenAttacks)
             {
                 TriggerAttack();
                 timeSinceLastAttack = 0f;
             }
+        }
+
+        void FaceTarget()
+        {
+            Vector3 direction = (target.transform.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * turnSpeed);
         }
 
         void TriggerAttack()
@@ -92,16 +102,16 @@ namespace RPG.Combat
         // Animation Event
         void Hit()
         {
-            if(target == null) return;
+            if (target == null) return;
 
             float damage = GetComponent<BaseStats>().GetStat(Stat.Damage);
 
-            if(currentWeapon.value != null)
+            if (currentWeapon.value != null)
             {
                 currentWeapon.value.OnHit();
             }
 
-            if(currentWeaponConfig.HasProjectile())
+            if (currentWeaponConfig.HasProjectile())
             {
                 currentWeaponConfig.LaunchProjectile(rightHandTransform, leftHandTransform, target, gameObject, damage);
             }
@@ -123,10 +133,10 @@ namespace RPG.Combat
 
         public bool CanAttack(GameObject combatTarget)
         {
-            if(combatTarget == null) return false;
+            if (combatTarget == null) return false;
             if (!GetComponent<Mover>().CanMoveTo(combatTarget.transform.position) &&
                 !GetIsInRange(combatTarget.transform)) return false;
-            
+
             Health targetToTest = combatTarget.GetComponent<Health>();
             return targetToTest != null && !targetToTest.IsDead();
         }
@@ -152,7 +162,7 @@ namespace RPG.Combat
 
         public IEnumerable<float> GetAdditiveModifiers(Stat stat)
         {
-            if(stat == Stat.Damage)
+            if (stat == Stat.Damage)
             {
                 yield return currentWeaponConfig.GetDamage();
             }
@@ -163,7 +173,7 @@ namespace RPG.Combat
             if (stat == Stat.Damage)
             {
                 yield return currentWeaponConfig.GetPercentageBonus();
-            }            
+            }
         }
 
         public object CaptureState()

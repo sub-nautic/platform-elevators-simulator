@@ -99,6 +99,11 @@ namespace RPG.Attributes
             if (isDead) return;
 
             isDead = true;
+            if (gameObject.CompareTag("Player"))
+            {
+                //todo
+                return;
+            }
             GetComponent<Animator>().SetTrigger("die");
             GetComponent<ActionScheduler>().CancelCurrentAction();
         }
