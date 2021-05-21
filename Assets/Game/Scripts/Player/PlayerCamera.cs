@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Project.Elevators;
 using UnityEngine;
@@ -9,8 +10,9 @@ namespace Project.Control
     public class PlayerCamera : MonoBehaviour
     {
         [Header("Camera config")]
-        [SerializeField] float mouseSensitivity = 100f;
+        [SerializeField] float mouseSensitivity = 75f;
         [SerializeField] Transform playerBody = null;
+        [SerializeField] Camera playerCamera;
 
         [Header("Raycast config")]
         [SerializeField] float rayLenght = 2.5f;
@@ -20,7 +22,7 @@ namespace Project.Control
         GameObject raycastedObject;
 
         float xRotation = 0f;
-        bool isCrosshairDefault = true;
+        //bool isCrosshairDefault = true;
 
         void Start()
         {
@@ -31,8 +33,56 @@ namespace Project.Control
 
         void Update()
         {
+            //if (InteractWithUI()) return;
+            if (InteractWitchComponent()) return;
+
+
+            CrosshairNormal();
             CursorState();
-            InteractionRaycast();
+            //InteractionRaycast();
+        }
+
+        bool InteractWitchComponent()
+        {
+            RaycastHit[] hits = RaycastAllSorted();
+            foreach (RaycastHit hit in hits)
+            {
+                IRaycastable[] raycastables = hit.transform.GetComponents<IRaycastable>();
+                foreach (IRaycastable raycastable in raycastables)
+                {
+                    if (raycastable.HandleRaycast(this))
+                    {
+                        //SetCursor(raycastable.GetCursorType());
+                        CrosshairActive();
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        RaycastHit[] RaycastAllSorted()
+        {
+            Vector3 forward = playerCamera.transform.TransformDirection(Vector3.forward);
+
+            RaycastHit[] hits = Physics.RaycastAll(playerCamera.transform.position, forward, rayLenght);
+            float[] distances = new float[hits.Length];
+            for (int i = 0; i < hits.Length; i++)
+            {
+                distances[i] = hits[i].distance;
+            }
+            Array.Sort(distances, hits);
+            return hits;
+        }
+
+        void CrosshairActive()
+        {
+            uiCrosshair.color = Color.green;
+        }
+
+        void CrosshairNormal()
+        {
+            uiCrosshair.color = Color.white;
         }
 
         private static void CursorState()
@@ -51,53 +101,6 @@ namespace Project.Control
             }
         }
 
-        private void InteractionRaycast()
-        {
-            RaycastHit hit;
-            Vector3 forward = transform.TransformDirection(Vector3.forward);
-
-            if (Physics.Raycast(transform.position, forward, out hit, rayLenght, layerMaskInteractable))
-            {
-                if (hit.collider.CompareTag("Object"))
-                {
-                    raycastedObject = hit.collider.gameObject;
-                    isCrosshairDefault = false;
-                    CrosshairActive();
-
-                    //Interact to call elevator
-                    CallingElevator();
-                }
-            }
-            else
-            {
-                if (!isCrosshairDefault)
-                {
-                    isCrosshairDefault = true;
-                    CrosshairNormal();
-                }
-            }
-        }
-
-        private void CallingElevator()
-        {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                ElevatorCaller elevatorButton = raycastedObject.GetComponent<ElevatorCaller>();
-
-                elevatorButton.CallElevator();
-            }
-        }
-
-        void CrosshairActive()
-        {
-            uiCrosshair.color = Color.green;
-        }
-
-        void CrosshairNormal()
-        {
-            uiCrosshair.color = Color.white;
-        }
-
         void LateUpdate()
         {
             CameraRotate();
@@ -113,7 +116,7 @@ namespace Project.Control
             xRotation -= mouseY;
             xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+            playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
             playerBody.Rotate(Vector3.up * mouseX);
         }
     }

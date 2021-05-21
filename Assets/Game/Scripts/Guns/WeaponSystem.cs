@@ -25,6 +25,7 @@ public class WeaponSystem : MonoBehaviour
 
     private void Awake()
     {
+        cam = GetComponentInChildren<Camera>();
         currentWeaponConfig = defaultWeapon;
         currentWeapon = SetupDefaultWeapon();
     }
@@ -42,19 +43,13 @@ public class WeaponSystem : MonoBehaviour
 
     Weapon AttachWeapon(PlayerWeaponConfig weapon)
     {
+        StartCoroutine(PrepareGunToShoot());
         return weapon.Spawn(rightHandTransform, leftHandTransform);
-    }
-
-    void OnEnable()
-    {
-        canShoot = false;
-        StartCoroutine(PrepareGunToShoot()); //on switch weapon need to wait
-        //DisplayAmmo();
     }
 
     void Start()
     {
-        cam = GetComponentInChildren<Camera>();
+        canShoot = false;
     }
 
     void Update()
@@ -84,17 +79,6 @@ public class WeaponSystem : MonoBehaviour
         else { Debug.Log("No ammo :o"); }
         yield return new WaitForSeconds(currentWeaponConfig.GetTimeBetweenShoots());
         canShoot = true;
-    }
-
-    void DisplayAmmo()
-    {
-        int currentAmmo = ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType());
-        ammoText.text = "Ammo: " + currentAmmo.ToString();
-    }
-
-    void PlayMuzzleFlash()
-    {
-        currentWeapon.GetComponentInChildren<ParticleSystem>().Play();
     }
 
     void ProcessRaycast()
@@ -129,6 +113,17 @@ public class WeaponSystem : MonoBehaviour
         enemy.DamageBodyPart();
     }
 
+    void DisplayAmmo()
+    {
+        int currentAmmo = ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType());
+        ammoText.text = "Ammo: " + currentAmmo.ToString();
+    }
+
+    void PlayMuzzleFlash()
+    {
+        currentWeapon.GetComponentInChildren<ParticleSystem>().Play();
+    }
+
     void CreateHitImpact(RaycastHit hit)
     {
         GameObject impact = Instantiate(currentWeaponConfig.GetHitEffect(), hit.point, Quaternion.LookRotation(hit.normal));
@@ -137,7 +132,7 @@ public class WeaponSystem : MonoBehaviour
 
     IEnumerator PrepareGunToShoot()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         canShoot = true;
     }
 }
