@@ -110,7 +110,7 @@ public class WeaponSystem : MonoBehaviour
     {
         BodyPart enemy = hit.transform.GetComponentInChildren<BodyPart>();
         if (enemy == null) return;
-        enemy.DamageBodyPart();
+        enemy.DamageBodyPart(currentWeaponConfig.GetDamage());
     }
 
     void DisplayAmmo()

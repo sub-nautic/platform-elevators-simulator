@@ -11,7 +11,7 @@ namespace RPG.Attributes
     public class Health : MonoBehaviour, ISaveable
     {
         [SerializeField] float regenerationPercentage = 70f;
-        [SerializeField] TakeDamageEvent takeDamage;
+        [SerializeField] public TakeDamageEvent takeDamage;
         [SerializeField] UnityEvent onDie;
 
         [System.Serializable]

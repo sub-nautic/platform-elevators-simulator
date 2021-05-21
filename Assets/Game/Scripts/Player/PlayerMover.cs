@@ -51,17 +51,16 @@ namespace Project.Control
             emitterNum = 1;
         }
 
+        private void FixedUpdate()
+        {
+            Moving();
+        }
+
         void Update()
         {
             HaveFootsOnGround();
             GroundCheck();
-            Movement();
-        }
-
-        void Movement()
-        {
             Jumping();
-            Moving();
         }
 
         void Jumping()

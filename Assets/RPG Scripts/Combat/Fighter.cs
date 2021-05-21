@@ -18,6 +18,7 @@ namespace RPG.Combat
         [SerializeField] WeaponConfig defaultWeapon = null;
 
         float turnSpeed = 5f;
+        bool canFight = true;
 
         Health target;
         float timeSinceLastAttack = Mathf.Infinity;
@@ -53,9 +54,24 @@ namespace RPG.Combat
             }
             else
             {
-                GetComponent<Mover>().Cancel();
-                AttackBehaviour();
+                if (canFight)
+                {
+                    GetComponent<Mover>().Cancel();
+                    AttackBehaviour();
+                }
+                else
+                {
+                    if (!GetIsInRange(target.transform))
+                    {
+                        GetComponent<Mover>().MoveTo(target.transform.position, 1f);
+                    }
+                }
             }
+        }
+
+        public bool CanFight(bool argument)
+        {
+            return canFight = argument;
         }
 
         public void EquipWeapon(WeaponConfig weapon)

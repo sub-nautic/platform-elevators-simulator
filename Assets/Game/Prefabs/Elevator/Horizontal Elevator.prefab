@@ -199,8 +199,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95086c8490503984eaa4b81cca2c0c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  elevatorController: {fileID: 0}
-  floor: 0
+  elevatorController: {fileID: 5760607209477529883}
+  destinationFloor: 1
 --- !u!1 &4357813509255582463
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,8 +307,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95086c8490503984eaa4b81cca2c0c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  elevatorController: {fileID: 0}
-  floor: 1
+  elevatorController: {fileID: 5760607209477529883}
+  destinationFloor: 0
 --- !u!1 &5088633753347304031
 GameObject:
   m_ObjectHideFlags: 0

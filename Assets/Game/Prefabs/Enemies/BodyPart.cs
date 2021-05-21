@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using RPG.Attributes;
 using UnityEngine;
 
 namespace Project.DestructableElements
@@ -9,6 +10,7 @@ namespace Project.DestructableElements
         [SerializeField] SkinnedMeshRenderer[] myMeshs = null;
         [SerializeField] GameObject replacer;
         [SerializeField] BodyPart[] linkedParts = null;
+        [SerializeField] float healthPoints = 15f;
 
 
         GameObject createdDisconectPart;
@@ -16,21 +18,31 @@ namespace Project.DestructableElements
         Vector3 currentPos;
 
         float resurrectTime = 5f;
+        float startingHealthPoints;
 
         bool isDestroyed = false;
-        public bool Status() { return isDestroyed; }
+        public bool DestroyedStatus() { return isDestroyed; }
 
-        private void Update()
+        void Start()
+        {
+            startingHealthPoints = healthPoints;
+        }
+
+        void Update()
         {
             MoveDetachedPartToOriginalPos();
         }
 
-        public void DamageBodyPart()
+        public void DamageBodyPart(float gunDamage)
         {
-            DestroyMyself();
-            CheckChildParts();
-
-            print(this.name + "hit");
+            healthPoints -= gunDamage;
+            GetComponentInParent<Health>().takeDamage.Invoke(gunDamage);
+            if (healthPoints <= 0)
+            {
+                DestroyMyself();
+                CheckChildParts();
+            }
+            //print(this.name + "hit");
         }
 
         void CheckChildParts()
@@ -48,7 +60,8 @@ namespace Project.DestructableElements
             MeshState(false);
             CreateSeparatePart();
 
-            Invoke("BackToOryginalForm", 3f);
+            float timeToStartingResurect = GetComponentInParent<DestructableBody>().GetTimeToResurectBodyPart();
+            Invoke("BackToOryginalForm", timeToStartingResurect);
 
             isDestroyed = true;
         }
@@ -99,6 +112,7 @@ namespace Project.DestructableElements
 
             ColliderState(true);
             MeshState(true);
+            healthPoints = startingHealthPoints;
 
             isDestroyed = false;
         }

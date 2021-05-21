@@ -59,6 +59,10 @@ namespace RPG.Movement
         {
             maxSpeed = value;
         }
+        public float GetMaxSpeed()
+        {
+            return maxSpeed;
+        }
 
         public void Cancel()
         {
