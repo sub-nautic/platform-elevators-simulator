@@ -169,7 +169,9 @@ GameObject:
   - component: {fileID: 2349962601774630853}
   - component: {fileID: 2349962601774630852}
   - component: {fileID: -5708296876257649162}
-  m_Layer: 0
+  - component: {fileID: 1978578758364973278}
+  - component: {fileID: 3168502113708974227}
+  m_Layer: 11
   m_Name: Rifle Pickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +185,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2349962601774630859}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.197, y: 0, z: -3.119}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -202,8 +204,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.75324607, y: 0.107504845, z: 2.071827}
-  m_Center: {x: -0.34863412, y: 0.057846785, z: -0.28530645}
+  m_Size: {x: 0.121466875, y: 0.76800156, z: 2.071827}
+  m_Center: {x: 0.00007522106, y: 0.38809514, z: 0.285}
 --- !u!114 &-5708296876257649162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,6 +220,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponPickup: {fileID: 11400000, guid: 5b09d0d3fe6067a4cbb08e8c3724ad34, type: 2}
   respawnTime: 2
+--- !u!54 &1978578758364973278
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2349962601774630859}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &3168502113708974227
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2349962601774630859}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.039443254, y: 0.76800156, z: 2.071827}
+  m_Center: {x: 0.004175067, y: 0.38809514, z: 0.285}
 --- !u!1 &2926592262327158160
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,7 +274,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2926592262327158160}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -256,7 +287,7 @@ Transform:
   - {fileID: 7709787756405519109}
   m_Father: {fileID: 2349962601774630853}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!33 &1475301689628397711
 MeshFilter:
   m_ObjectHideFlags: 0

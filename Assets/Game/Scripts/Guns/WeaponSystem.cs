@@ -8,7 +8,7 @@ using RPG.Combat;
 
 public class WeaponSystem : MonoBehaviour
 {
-    [SerializeField] PlayerWeaponConfig defaultWeapon = null;
+    [SerializeField] PlayerWeaponConfig defaultWeapon = null; public PlayerWeaponConfig DefaultWeapon { get { return defaultWeapon; } }
     [SerializeField] Transform rightHandTransform = null;
     [SerializeField] Transform leftHandTransform = null;
 
@@ -22,6 +22,10 @@ public class WeaponSystem : MonoBehaviour
 
     PlayerWeaponConfig currentWeaponConfig;
     Weapon currentWeapon;
+    public Transform GetCurrentWeaponTransform()
+    {
+        return currentWeapon.transform;
+    }
 
     private void Awake()
     {
@@ -32,6 +36,7 @@ public class WeaponSystem : MonoBehaviour
 
     Weapon SetupDefaultWeapon()
     {
+        GetComponent<WeaponChanger>().AddAtStartToWeaponList(defaultWeapon);
         return AttachWeapon(defaultWeapon);
     }
 
@@ -121,11 +126,13 @@ public class WeaponSystem : MonoBehaviour
 
     void PlayMuzzleFlash()
     {
+        if (currentWeapon.GetComponentInChildren<ParticleSystem>() == null) return;
         currentWeapon.GetComponentInChildren<ParticleSystem>().Play();
     }
 
     void CreateHitImpact(RaycastHit hit)
     {
+        if (currentWeaponConfig.GetHitEffect() == null) return;
         GameObject impact = Instantiate(currentWeaponConfig.GetHitEffect(), hit.point, Quaternion.LookRotation(hit.normal));
         Destroy(impact, 0.1f);
     }

@@ -12,7 +12,7 @@ public class Pickup : MonoBehaviour, IRaycastable
     {
         if (other.tag == "Player")
         {
-            ThisPickup(other.gameObject);
+            //ThisPickup(other.gameObject);
         }
     }
 
@@ -21,13 +21,23 @@ public class Pickup : MonoBehaviour, IRaycastable
         //if have component with weapon then pick weapon
         if (weaponPickup != null)
         {
-            subject.GetComponent<WeaponSystem>().EquipWeapon(weaponPickup);
+            WeaponChanger weaponChanger = subject.GetComponent<WeaponChanger>();
+            bool isNotInPossessionObject = weaponChanger.CheckWeapon(weaponPickup);
+
+            if (isNotInPossessionObject)
+            {
+                subject.GetComponent<WeaponSystem>().EquipWeapon(weaponPickup);
+                weaponChanger.AddToWeaponList(weaponPickup);
+                StartCoroutine(HideForSeconds(respawnTime));
+                return;
+            }
+            Debug.Log("This weapon is current in your possession!");
         }
         // if (healthToRestore > 0)
         // {
         //     subject.GetComponent<Health>().Heal(healthToRestore);
         // }
-        StartCoroutine(HideForSeconds(respawnTime));
+
     }
 
     IEnumerator HideForSeconds(float seconds)

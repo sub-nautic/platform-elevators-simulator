@@ -10,6 +10,7 @@ public class PlayerWeaponConfig : ScriptableObject
     [SerializeField] float timeBetweenShoots = 0.1f;
     [SerializeField] AmmoType ammoType;
     [SerializeField] Weapon equippedPrefab = null;
+    [SerializeField] Pickup equippedPickupPrefab = null;
     [SerializeField] bool isAutomatic = true;
     [SerializeField] bool isRightHanded = true;
     [SerializeField] GameObject hitEffect;
@@ -74,6 +75,11 @@ public class PlayerWeaponConfig : ScriptableObject
     public AmmoType GetAmmoType()
     {
         return ammoType;
+    }
+
+    public Pickup GetEquippedPickupPrefab()
+    {
+        return equippedPickupPrefab;
     }
 
     public GameObject GetHitEffect()

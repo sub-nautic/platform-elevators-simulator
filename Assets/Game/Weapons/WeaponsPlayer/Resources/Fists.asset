@@ -10,18 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c3a8e0aa58d3574aa8a5cc334ed6a22, type: 3}
-  m_Name: Pistol
+  m_Name: Fists
   m_EditorClassIdentifier: 
-  weaponDamage: 10
+  weaponDamage: 1
   percentageBonus: 0
-  timeBetweenShoots: 0.2
+  timeBetweenShoots: 1
   ammoType: 0
-  equippedPrefab: {fileID: -3699963850649294468, guid: 462525b5cf11e69488a493f43fc02bcb,
+  equippedPrefab: {fileID: 7260183584614231218, guid: abb1e31377efd944e9c5799f5d9b15fb,
     type: 3}
-  equippedPickupPrefab: {fileID: 6369548440519750432, guid: d019380f7cea0a04493de455e16edd1b,
-    type: 3}
-  isAutomatic: 0
+  isAutomatic: 1
   isRightHanded: 1
-  hitEffect: {fileID: 6724529847288018442, guid: 63bc6739f160da34ba77f3a6de01164c,
-    type: 3}
+  hitEffect: {fileID: 0}
   projectile: {fileID: 0}
