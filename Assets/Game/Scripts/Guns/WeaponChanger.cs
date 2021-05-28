@@ -78,11 +78,7 @@ public class WeaponChanger : MonoBehaviour
             CreateDropedItemPrefab();
 
             weapons.Remove(weapons[selectedGun]);
-            selectedGun = 0;
-            if (weapons.Count == 0)
-            {
-                AddToWeaponList(GetComponent<WeaponSystem>().DefaultWeapon);
-            }
+            selectedGun -= 1;
             UpdateGun();
         }
     }

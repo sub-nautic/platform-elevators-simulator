@@ -331,6 +331,7 @@ GameObject:
   - component: {fileID: 2673307848721835398}
   - component: {fileID: 3514526404150989602}
   - component: {fileID: 7425981033306365533}
+  - component: {fileID: 4992981533593631194}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -415,7 +416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b1fbe869c9415345a7a1bfb1254abfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultWeapon: {fileID: 11400000, guid: 628f64789e2e7ad489e2d2428e51fd6b, type: 2}
+  defaultWeapon: {fileID: 11400000, guid: 16af8a25d7415fb40a24d31d66b8df10, type: 2}
   rightHandTransform: {fileID: 3021684304466595587}
   leftHandTransform: {fileID: 2657667009619313595}
   shootRange: 100
@@ -513,7 +514,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ea9374b509b70f4bba37e4a2ca8cf00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uniqueIdentifier: player
+  uniqueIdentifier: Player
 --- !u!82 &7425981033306365533
 AudioSource:
   m_ObjectHideFlags: 0
@@ -610,6 +611,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4992981533593631194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4643940792268724368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61ab0031218bd1e428a652e832304cee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapons: []
 --- !u!1 &5221519945674698709
 GameObject:
   m_ObjectHideFlags: 0

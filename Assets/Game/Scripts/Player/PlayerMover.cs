@@ -70,7 +70,6 @@ namespace Project.Control
                 StartCoroutine(StopGroundCheck());
                 canMove = false;
                 playerRB.velocity = new Vector3(playerRB.velocity.x, jumpHeight, playerRB.velocity.z);
-                uiDisplay.AddJumpCounter();
             }
         }
 

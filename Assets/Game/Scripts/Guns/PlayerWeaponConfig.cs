@@ -9,6 +9,7 @@ public class PlayerWeaponConfig : ScriptableObject
     [SerializeField] float percentageBonus = 0f;
     [SerializeField] float timeBetweenShoots = 0.1f;
     [SerializeField] AmmoType ammoType;
+    [SerializeField] int magazinaCapacity = 0;
     [SerializeField] Weapon equippedPrefab = null;
     [SerializeField] Pickup equippedPickupPrefab = null;
     [SerializeField] bool isAutomatic = true;
@@ -75,6 +76,11 @@ public class PlayerWeaponConfig : ScriptableObject
     public AmmoType GetAmmoType()
     {
         return ammoType;
+    }
+
+    public int GetMagazineCapacity()
+    {
+        return magazinaCapacity;
     }
 
     public Pickup GetEquippedPickupPrefab()

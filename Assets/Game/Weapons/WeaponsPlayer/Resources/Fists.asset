@@ -16,8 +16,10 @@ MonoBehaviour:
   percentageBonus: 0
   timeBetweenShoots: 1
   ammoType: 0
+  magazinaCapacity: 0
   equippedPrefab: {fileID: 7260183584614231218, guid: abb1e31377efd944e9c5799f5d9b15fb,
     type: 3}
+  equippedPickupPrefab: {fileID: 0}
   isAutomatic: 1
   isRightHanded: 1
   hitEffect: {fileID: 0}

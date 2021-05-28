@@ -8,7 +8,9 @@ using RPG.Combat;
 
 public class WeaponSystem : MonoBehaviour
 {
-    [SerializeField] PlayerWeaponConfig defaultWeapon = null; public PlayerWeaponConfig DefaultWeapon { get { return defaultWeapon; } }
+    [SerializeField] PlayerWeaponConfig defaultWeapon = null;
+    public PlayerWeaponConfig DefaultWeapon { get { return defaultWeapon; } }
+
     [SerializeField] Transform rightHandTransform = null;
     [SerializeField] Transform leftHandTransform = null;
 
@@ -22,6 +24,9 @@ public class WeaponSystem : MonoBehaviour
 
     PlayerWeaponConfig currentWeaponConfig;
     Weapon currentWeapon;
+    int basicWeaponAmmoCapacity;
+    public int currentWeaponAmmo;
+    bool isReloading;
     public Transform GetCurrentWeaponTransform()
     {
         return currentWeapon.transform;
@@ -44,6 +49,7 @@ public class WeaponSystem : MonoBehaviour
     {
         currentWeaponConfig = weapon;
         currentWeapon = AttachWeapon(weapon);
+        AmmoMagazine();
     }
 
     Weapon AttachWeapon(PlayerWeaponConfig weapon)
@@ -55,11 +61,19 @@ public class WeaponSystem : MonoBehaviour
     void Start()
     {
         canShoot = false;
+        AmmoMagazine();
     }
 
     void Update()
     {
         if (!canShoot) return;
+        if (isReloading) return;
+        if (currentWeaponAmmo == 0 &&
+            ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType()) == 0)
+        {
+            //play empty sound
+            return;
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -73,17 +87,52 @@ public class WeaponSystem : MonoBehaviour
 
     IEnumerator Shoot()
     {
-        if (ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType()) >= 1)
+        if (currentWeaponAmmo >= 1)
         {
             PlayMuzzleFlash();
             ProcessRaycast();
-            ammoSlot.ReduceAmmoAmount(currentWeaponConfig.GetAmmoType());
+            ReduceAmmoInMagazine();
             canShoot = false;
             //DisplayAmmo();
         }
-        else { Debug.Log("No ammo :o"); }
+        else
+        {
+            StartCoroutine(Reload());
+            print("auto reload");
+        }
+
         yield return new WaitForSeconds(currentWeaponConfig.GetTimeBetweenShoots());
         canShoot = true;
+    }
+
+    void ReduceAmmoInMagazine()
+    {
+        currentWeaponAmmo -= 1;
+        //instantiate ammo husk
+    }
+
+    IEnumerator Reload()
+    {
+        isReloading = true;
+        //reloading
+
+        yield return new WaitForSeconds(3f);
+
+        //if(ammo < basicWeaponAmmoCapacity) ...
+        if (ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType()) < basicWeaponAmmoCapacity)
+        {
+            currentWeaponAmmo = ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType());
+            ammoSlot.ReduceAmmoAmount(currentWeaponConfig.GetAmmoType(), ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType()));
+            isReloading = false;
+
+            print("ssd");
+            yield break;
+        }
+
+        ammoSlot.ReduceAmmoAmount(currentWeaponConfig.GetAmmoType(), basicWeaponAmmoCapacity);
+        currentWeaponAmmo = basicWeaponAmmoCapacity;
+        isReloading = false;
+        //reloaded        
     }
 
     void ProcessRaycast()
@@ -109,6 +158,13 @@ public class WeaponSystem : MonoBehaviour
 
         }
         else { return; }
+    }
+
+    void AmmoMagazine()
+    {
+        int selectedWeaponAmmoCapacity = currentWeaponConfig.GetMagazineCapacity();
+        basicWeaponAmmoCapacity = selectedWeaponAmmoCapacity;
+        currentWeaponAmmo = basicWeaponAmmoCapacity;
     }
 
     void HitBreakableEnemy(RaycastHit hit)

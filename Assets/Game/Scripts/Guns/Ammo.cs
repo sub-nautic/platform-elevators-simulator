@@ -23,9 +23,9 @@ public class Ammo : MonoBehaviour
         GetAmmoSlot(ammoType).ammoAmount += amount;
     }
 
-    public void ReduceAmmoAmount(AmmoType ammoType)
+    public void ReduceAmmoAmount(AmmoType ammoType, int amount)
     {
-        GetAmmoSlot(ammoType).ammoAmount--;
+        GetAmmoSlot(ammoType).ammoAmount -= amount;
     }
 
     AmmoSlot GetAmmoSlot(AmmoType ammoType)

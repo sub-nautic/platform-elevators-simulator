@@ -6,6 +6,7 @@ using UnityEngine;
 public class Pickup : MonoBehaviour, IRaycastable
 {
     [SerializeField] PlayerWeaponConfig weaponPickup = null;
+    [SerializeField] bool canRespawn;
     [SerializeField] float respawnTime = 2f;
 
     void OnTriggerEnter(Collider other)
@@ -28,7 +29,15 @@ public class Pickup : MonoBehaviour, IRaycastable
             {
                 subject.GetComponent<WeaponSystem>().EquipWeapon(weaponPickup);
                 weaponChanger.AddToWeaponList(weaponPickup);
-                StartCoroutine(HideForSeconds(respawnTime));
+                if (canRespawn)
+                {
+                    StartCoroutine(HideForSeconds(respawnTime));
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
+
                 return;
             }
             Debug.Log("This weapon is current in your possession!");

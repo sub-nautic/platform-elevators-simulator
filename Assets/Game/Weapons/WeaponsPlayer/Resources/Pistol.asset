@@ -16,6 +16,7 @@ MonoBehaviour:
   percentageBonus: 0
   timeBetweenShoots: 0.2
   ammoType: 0
+  magazinaCapacity: 7
   equippedPrefab: {fileID: -3699963850649294468, guid: 462525b5cf11e69488a493f43fc02bcb,
     type: 3}
   equippedPickupPrefab: {fileID: 6369548440519750432, guid: d019380f7cea0a04493de455e16edd1b,

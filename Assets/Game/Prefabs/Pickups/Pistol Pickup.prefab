@@ -267,7 +267,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8588368366763325114}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.424, y: 0, z: -2.623}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8723196435828940297}
@@ -300,6 +300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponPickup: {fileID: 11400000, guid: 628f64789e2e7ad489e2d2428e51fd6b, type: 2}
+  canRespawn: 0
   respawnTime: 60
 --- !u!54 &-1408925906527232824
 Rigidbody:
