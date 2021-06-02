@@ -9,6 +9,9 @@ public class Pickup : MonoBehaviour, IRaycastable
     [SerializeField] bool canRespawn;
     [SerializeField] float respawnTime = 2f;
 
+    [Header("optional")]
+    [SerializeField] public int ammoLeftInMagazine;
+
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
@@ -24,11 +27,17 @@ public class Pickup : MonoBehaviour, IRaycastable
         {
             WeaponChanger weaponChanger = subject.GetComponent<WeaponChanger>();
             bool isNotInPossessionObject = weaponChanger.CheckWeapon(weaponPickup);
+            WeaponSystem playerWeaponSystem = subject.GetComponent<WeaponSystem>();
 
             if (isNotInPossessionObject)
             {
-                subject.GetComponent<WeaponSystem>().EquipWeapon(weaponPickup);
-                weaponChanger.AddToWeaponList(weaponPickup);
+                playerWeaponSystem.EquipWeapon(weaponPickup);
+                weaponChanger.AddToWeaponList(weaponPickup, ammoLeftInMagazine);
+                playerWeaponSystem.BasicAmmoMagazineCapacity();
+                playerWeaponSystem.AmmoInMagazine(ammoLeftInMagazine);
+
+
+                playerWeaponSystem.DisplayInUIAllAmmo();
                 if (canRespawn)
                 {
                     StartCoroutine(HideForSeconds(respawnTime));
@@ -73,5 +82,10 @@ public class Pickup : MonoBehaviour, IRaycastable
             ThisPickup(callingController.gameObject);
         }
         return true;
+    }
+
+    public int GetAmmoLeftInMagazine()
+    {
+        return ammoLeftInMagazine;
     }
 }

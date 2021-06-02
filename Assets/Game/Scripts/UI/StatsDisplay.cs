@@ -3,18 +3,27 @@ using TMPro;
 
 public class StatsDisplay : MonoBehaviour
 {
+    public static StatsDisplay instance;
+
     [SerializeField] TextMeshProUGUI timeCounterText;
+    [SerializeField] public TextMeshProUGUI currentAmmoMagazine;
+    [SerializeField] public TextMeshProUGUI allAmmo;
 
     float timer;
 
-    private void Start()
+    void Awake()
     {
-
+        instance = this;
     }
 
     void Update()
     {
         TimeCounter();
+    }
+
+    public void Prints()
+    {
+        print("work");
     }
 
     void TimeCounter()

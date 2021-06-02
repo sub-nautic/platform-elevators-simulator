@@ -49,7 +49,9 @@ public class WeaponSystem : MonoBehaviour
     {
         currentWeaponConfig = weapon;
         currentWeapon = AttachWeapon(weapon);
-        AmmoMagazine();
+
+        //BasicAmmoMagazineCapacity();
+        //DisplayInUIAllAmmo();
     }
 
     Weapon AttachWeapon(PlayerWeaponConfig weapon)
@@ -58,17 +60,24 @@ public class WeaponSystem : MonoBehaviour
         return weapon.Spawn(rightHandTransform, leftHandTransform);
     }
 
+    public void AmmoInMagazine(int amount)
+    {
+        GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo = amount;
+    }
+
     void Start()
     {
         canShoot = false;
-        AmmoMagazine();
+        //BasicAmmoMagazineCapacity();
+        DisplayInUICurrentAmmo();
+        DisplayInUIAllAmmo();
     }
 
     void Update()
     {
         if (!canShoot) return;
         if (isReloading) return;
-        if (currentWeaponAmmo == 0 &&
+        if (GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo == 0 &&
             ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType()) == 0)
         {
             //play empty sound
@@ -87,13 +96,15 @@ public class WeaponSystem : MonoBehaviour
 
     IEnumerator Shoot()
     {
-        if (currentWeaponAmmo >= 1)
+        if (GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo >= 1)
         {
             PlayMuzzleFlash();
             ProcessRaycast();
             ReduceAmmoInMagazine();
             canShoot = false;
-            //DisplayAmmo();
+
+
+            DisplayInUICurrentAmmo();
         }
         else
         {
@@ -107,7 +118,7 @@ public class WeaponSystem : MonoBehaviour
 
     void ReduceAmmoInMagazine()
     {
-        currentWeaponAmmo -= 1;
+        GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo -= 1;
         //instantiate ammo husk
     }
 
@@ -121,17 +132,22 @@ public class WeaponSystem : MonoBehaviour
         //if(ammo < basicWeaponAmmoCapacity) ...
         if (ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType()) < basicWeaponAmmoCapacity)
         {
-            currentWeaponAmmo = ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType());
+            GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo = ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType());
             ammoSlot.ReduceAmmoAmount(currentWeaponConfig.GetAmmoType(), ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType()));
+
+            DisplayInUIAllAmmo();
             isReloading = false;
 
             print("ssd");
             yield break;
         }
 
+        GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo = basicWeaponAmmoCapacity;
         ammoSlot.ReduceAmmoAmount(currentWeaponConfig.GetAmmoType(), basicWeaponAmmoCapacity);
-        currentWeaponAmmo = basicWeaponAmmoCapacity;
+
+        DisplayInUIAllAmmo();
         isReloading = false;
+        print("normal");
         //reloaded        
     }
 
@@ -147,7 +163,6 @@ public class WeaponSystem : MonoBehaviour
             if (hit.collider.transform != null)
             {
                 HitBreakableEnemy(hit);
-
             }
 
             CreateHitImpact(hit);
@@ -160,11 +175,11 @@ public class WeaponSystem : MonoBehaviour
         else { return; }
     }
 
-    void AmmoMagazine()
+    public void BasicAmmoMagazineCapacity()
     {
         int selectedWeaponAmmoCapacity = currentWeaponConfig.GetMagazineCapacity();
         basicWeaponAmmoCapacity = selectedWeaponAmmoCapacity;
-        currentWeaponAmmo = basicWeaponAmmoCapacity;
+        //GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo = basicWeaponAmmoCapacity;
     }
 
     void HitBreakableEnemy(RaycastHit hit)
@@ -172,12 +187,6 @@ public class WeaponSystem : MonoBehaviour
         BodyPart enemy = hit.transform.GetComponentInChildren<BodyPart>();
         if (enemy == null) return;
         enemy.DamageBodyPart(currentWeaponConfig.GetDamage());
-    }
-
-    void DisplayAmmo()
-    {
-        int currentAmmo = ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType());
-        ammoText.text = "Ammo: " + currentAmmo.ToString();
     }
 
     void PlayMuzzleFlash()
@@ -197,5 +206,16 @@ public class WeaponSystem : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         canShoot = true;
+    }
+
+    void DisplayInUICurrentAmmo()
+    {
+        StatsDisplay.instance.currentAmmoMagazine.text = GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo.ToString();
+    }
+
+    public void DisplayInUIAllAmmo()
+    {
+        StatsDisplay.instance.currentAmmoMagazine.text = GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo.ToString();
+        StatsDisplay.instance.allAmmo.text = ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType()).ToString();
     }
 }

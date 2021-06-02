@@ -3,9 +3,10 @@ using UnityEngine;
 
 public class WeaponChanger : MonoBehaviour
 {
-    [SerializeField] public List<PlayerWeaponConfig> weapons = new List<PlayerWeaponConfig>();
+    [SerializeField] public List<AmmoInWeapon> weapons = new List<AmmoInWeapon>();
 
     int selectedGun;
+    public int SelectedGun { get { return selectedGun; } }
 
     void Update()
     {
@@ -17,12 +18,12 @@ public class WeaponChanger : MonoBehaviour
     public void AddAtStartToWeaponList(PlayerWeaponConfig weapon)
     {
         if (!CheckWeapon(weapon)) return;
-        weapons.Add(weapon);
+        weapons.Add(new AmmoInWeapon(weapon, weapon.GetMagazineCapacity()));
     }
 
-    public void AddToWeaponList(PlayerWeaponConfig weapon)
+    public void AddToWeaponList(PlayerWeaponConfig weapon, int ammoInWeaponMagazine)
     {
-        weapons.Add(weapon);
+        weapons.Add(new AmmoInWeapon(weapon, ammoInWeaponMagazine));
         IncreaseSelectedGunNumber();
     }
 
@@ -35,7 +36,7 @@ public class WeaponChanger : MonoBehaviour
     {
         for (int i = 0; i < weapons.Count; i++)
         {
-            if (weapons[i].name == obj.name)
+            if (weapons[i].weapon.name == obj.name)
             {
                 return false;
             }
@@ -67,7 +68,10 @@ public class WeaponChanger : MonoBehaviour
 
     void UpdateGun()
     {
-        GetComponent<WeaponSystem>().EquipWeapon(weapons[selectedGun]);
+        GetComponent<WeaponSystem>().EquipWeapon(weapons[selectedGun].weapon);
+        GetComponent<WeaponSystem>().BasicAmmoMagazineCapacity();
+        //weapons[selectedGun].cachedAmmo = GetComponent<WeaponSystem>().currentWeaponAmmo;
+        GetComponent<WeaponSystem>().DisplayInUIAllAmmo();
     }
 
     void DropWeapon()
@@ -86,7 +90,9 @@ public class WeaponChanger : MonoBehaviour
     private void CreateDropedItemPrefab()
     {
         Transform dropedTransform = GetComponent<WeaponSystem>().GetCurrentWeaponTransform();
-        Pickup dropedWeapon = Instantiate(weapons[selectedGun].GetEquippedPickupPrefab(), dropedTransform.position, dropedTransform.rotation);
+        Pickup dropedWeapon = Instantiate(weapons[selectedGun].weapon.GetEquippedPickupPrefab(), dropedTransform.position, dropedTransform.rotation);
         dropedWeapon.GetComponent<Rigidbody>().AddForce(transform.forward * 3f, ForceMode.Impulse);
+
+        dropedWeapon.ammoLeftInMagazine = GetComponent<WeaponSystem>().currentWeaponAmmo;
     }
 }
