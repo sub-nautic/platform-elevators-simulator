@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -68,9 +69,16 @@ public class WeaponChanger : MonoBehaviour
 
     void UpdateGun()
     {
+        //stop current reloading
+        if (GetComponent<WeaponSystem>().reload != null)
+        {
+
+            //StopCoroutine(GetComponent<WeaponSystem>().reload);
+            GetComponent<WeaponSystem>().isReloading = false;
+        }
+
         GetComponent<WeaponSystem>().EquipWeapon(weapons[selectedGun].weapon);
         GetComponent<WeaponSystem>().BasicAmmoMagazineCapacity();
-        //weapons[selectedGun].cachedAmmo = GetComponent<WeaponSystem>().currentWeaponAmmo;
         GetComponent<WeaponSystem>().DisplayInUIAllAmmo();
     }
 
@@ -93,6 +101,6 @@ public class WeaponChanger : MonoBehaviour
         Pickup dropedWeapon = Instantiate(weapons[selectedGun].weapon.GetEquippedPickupPrefab(), dropedTransform.position, dropedTransform.rotation);
         dropedWeapon.GetComponent<Rigidbody>().AddForce(transform.forward * 3f, ForceMode.Impulse);
 
-        dropedWeapon.ammoLeftInMagazine = GetComponent<WeaponSystem>().currentWeaponAmmo;
+        dropedWeapon.ammoLeftInMagazine = weapons[selectedGun].cachedAmmo;
     }
 }

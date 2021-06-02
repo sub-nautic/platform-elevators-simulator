@@ -9,7 +9,7 @@ public class Pickup : MonoBehaviour, IRaycastable
     [SerializeField] bool canRespawn;
     [SerializeField] float respawnTime = 2f;
 
-    [Header("optional")]
+    [Header("Left ammo")]
     [SerializeField] public int ammoLeftInMagazine;
 
     void OnTriggerEnter(Collider other)

@@ -26,7 +26,9 @@ public class WeaponSystem : MonoBehaviour
     Weapon currentWeapon;
     int basicWeaponAmmoCapacity;
     public int currentWeaponAmmo;
-    bool isReloading;
+    public bool isReloading;
+    public Coroutine reload;
+
     public Transform GetCurrentWeaponTransform()
     {
         return currentWeapon.transform;
@@ -49,9 +51,6 @@ public class WeaponSystem : MonoBehaviour
     {
         currentWeaponConfig = weapon;
         currentWeapon = AttachWeapon(weapon);
-
-        //BasicAmmoMagazineCapacity();
-        //DisplayInUIAllAmmo();
     }
 
     Weapon AttachWeapon(PlayerWeaponConfig weapon)
@@ -108,7 +107,7 @@ public class WeaponSystem : MonoBehaviour
         }
         else
         {
-            StartCoroutine(Reload());
+            reload = StartCoroutine(Reload());
             print("auto reload");
         }
 
@@ -122,33 +121,58 @@ public class WeaponSystem : MonoBehaviour
         //instantiate ammo husk
     }
 
-    IEnumerator Reload()
+    public IEnumerator Reload()
     {
         isReloading = true;
-        //reloading
 
-        yield return new WaitForSeconds(3f);
+        int currentWeaponNum = GetComponent<WeaponChanger>().SelectedGun;
 
-        //if(ammo < basicWeaponAmmoCapacity) ...
-        if (ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType()) < basicWeaponAmmoCapacity)
+        const float secToIncrement = 3f; //When to Increment (Every 3 second)
+        float counter = 0;
+
+        while (true)
         {
-            GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo = ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType());
-            ammoSlot.ReduceAmmoAmount(currentWeaponConfig.GetAmmoType(), ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType()));
+            //Check if we have reached counter
+            if (counter > secToIncrement)
+            {
+                counter = 0f; //Reset Counter
 
-            DisplayInUIAllAmmo();
-            isReloading = false;
+                //if(ammo < basicWeaponAmmoCapacity) ...
+                if (ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType()) < basicWeaponAmmoCapacity)
+                {
+                    GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo = ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType());
+                    ammoSlot.ReduceAmmoAmount(currentWeaponConfig.GetAmmoType(), ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType()));
 
-            print("ssd");
-            yield break;
+                    DisplayInUIAllAmmo();
+                    isReloading = false;
+
+                    print("last reload");
+                    yield break;
+                }
+
+                GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo = basicWeaponAmmoCapacity;
+                ammoSlot.ReduceAmmoAmount(currentWeaponConfig.GetAmmoType(), basicWeaponAmmoCapacity);
+
+                DisplayInUIAllAmmo();
+                isReloading = false;
+                print("normal reload");
+
+                yield break;
+                //reloaded 
+            }
+
+            //Increment counter
+            counter += Time.deltaTime;
+
+            if (currentWeaponNum != GetComponent<WeaponChanger>().SelectedGun)
+            {
+                Debug.Log("Action is break");
+                isReloading = false;
+                yield break;
+            }
+
+            yield return null;
         }
-
-        GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo = basicWeaponAmmoCapacity;
-        ammoSlot.ReduceAmmoAmount(currentWeaponConfig.GetAmmoType(), basicWeaponAmmoCapacity);
-
-        DisplayInUIAllAmmo();
-        isReloading = false;
-        print("normal");
-        //reloaded        
     }
 
     void ProcessRaycast()
@@ -158,7 +182,7 @@ public class WeaponSystem : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit, shootRange))
         {
-            Debug.Log("I hit this: " + hit.transform.name);
+            //Debug.Log("I hit this: " + hit.transform.name);
 
             if (hit.collider.transform != null)
             {

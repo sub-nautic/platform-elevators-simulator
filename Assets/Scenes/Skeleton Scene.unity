@@ -3743,7 +3743,7 @@ PrefabInstance:
     - target: {fileID: 7655142337063764090, guid: 10611893ddcac984089e003c340529e9,
         type: 3}
       propertyPath: ammoSlots.Array.data[0].ammoAmount
-      value: 40
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 8245785217849968307, guid: 10611893ddcac984089e003c340529e9,
         type: 3}
