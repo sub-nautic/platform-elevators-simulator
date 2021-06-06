@@ -1,12 +1,15 @@
-[System.Serializable]
-public class AmmoInWeapon
+namespace Project.WeaponControl
 {
-    public PlayerWeaponConfig weapon;
-    public int cachedAmmo;
-
-    public AmmoInWeapon(PlayerWeaponConfig newWeapon, int newCachedAmmo)
+    [System.Serializable]
+    public class AmmoInWeapon
     {
-        weapon = newWeapon;
-        cachedAmmo = newCachedAmmo;
+        public PlayerWeaponConfig weapon;
+        public int cachedAmmo;
+
+        public AmmoInWeapon(PlayerWeaponConfig newWeapon, int newCachedAmmo)
+        {
+            weapon = newWeapon;
+            cachedAmmo = newCachedAmmo;
+        }
     }
 }

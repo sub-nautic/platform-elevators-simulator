@@ -6,240 +6,254 @@ using TMPro;
 using Project.DestructableElements;
 using RPG.Combat;
 
-public class WeaponSystem : MonoBehaviour
+namespace Project.WeaponControl
 {
-    [SerializeField] PlayerWeaponConfig defaultWeapon = null;
-    public PlayerWeaponConfig DefaultWeapon { get { return defaultWeapon; } }
-
-    [SerializeField] Transform rightHandTransform = null;
-    [SerializeField] Transform leftHandTransform = null;
-
-    [SerializeField] float shootRange = 100f;
-    [SerializeField] Ammo ammoSlot;
-
-    [SerializeField] TextMeshProUGUI ammoText;
-
-    Camera cam;
-    bool canShoot;
-
-    PlayerWeaponConfig currentWeaponConfig;
-    Weapon currentWeapon;
-    int basicWeaponAmmoCapacity;
-    public int currentWeaponAmmo;
-    public bool isReloading;
-    public Coroutine reload;
-
-    public Transform GetCurrentWeaponTransform()
+    public class WeaponSystem : MonoBehaviour
     {
-        return currentWeapon.transform;
-    }
+        [SerializeField] PlayerWeaponConfig defaultWeapon = null;
+        public PlayerWeaponConfig DefaultWeapon { get { return defaultWeapon; } }
 
-    private void Awake()
-    {
-        cam = GetComponentInChildren<Camera>();
-        currentWeaponConfig = defaultWeapon;
-        currentWeapon = SetupDefaultWeapon();
-    }
+        [SerializeField] Transform rightHandTransform = null;
+        [SerializeField] Transform leftHandTransform = null;
 
-    Weapon SetupDefaultWeapon()
-    {
-        GetComponent<WeaponChanger>().AddAtStartToWeaponList(defaultWeapon);
-        return AttachWeapon(defaultWeapon);
-    }
+        [SerializeField] float shootRange = 100f;
+        [SerializeField] Ammo ammoSlot;
 
-    public void EquipWeapon(PlayerWeaponConfig weapon)
-    {
-        currentWeaponConfig = weapon;
-        currentWeapon = AttachWeapon(weapon);
-    }
+        [SerializeField] TextMeshProUGUI ammoText;
 
-    Weapon AttachWeapon(PlayerWeaponConfig weapon)
-    {
-        StartCoroutine(PrepareGunToShoot());
-        return weapon.Spawn(rightHandTransform, leftHandTransform);
-    }
+        Camera cam;
+        WeaponChanger weaponChanger;
+        bool canShoot;
 
-    public void AmmoInMagazine(int amount)
-    {
-        GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo = amount;
-    }
+        PlayerWeaponConfig currentWeaponConfig;
+        Weapon currentWeapon;
+        int basicWeaponAmmoCapacity;
+        int currentAmmo;
+        public bool isReloading;
 
-    void Start()
-    {
-        canShoot = false;
-        //BasicAmmoMagazineCapacity();
-        DisplayInUICurrentAmmo();
-        DisplayInUIAllAmmo();
-    }
-
-    void Update()
-    {
-        if (!canShoot) return;
-        if (isReloading) return;
-        if (GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo == 0 &&
-            ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType()) == 0)
+        public Transform GetCurrentWeaponTransform()
         {
-            //play empty sound
-            return;
+            return currentWeapon.transform;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        private void Awake()
         {
-            StartCoroutine(Shoot());
+            cam = GetComponentInChildren<Camera>();
+            weaponChanger = GetComponent<WeaponChanger>();
+            currentWeaponConfig = defaultWeapon;
+            currentWeapon = SetupDefaultWeapon();
         }
-        else if (Input.GetMouseButton(0) && currentWeaponConfig.IsAutomatic())
-        {
-            StartCoroutine(Shoot());
-        }
-    }
 
-    IEnumerator Shoot()
-    {
-        if (GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo >= 1)
+        void Start()
         {
-            PlayMuzzleFlash();
-            ProcessRaycast();
-            ReduceAmmoInMagazine();
             canShoot = false;
-
-
+            int currentAmmo = weaponChanger.weapons[weaponChanger.SelectedGun].cachedAmmo;
+            //BasicAmmoMagazineCapacity();
             DisplayInUICurrentAmmo();
-        }
-        else
-        {
-            reload = StartCoroutine(Reload());
-            print("auto reload");
+            DisplayInUIAllAmmo();
         }
 
-        yield return new WaitForSeconds(currentWeaponConfig.GetTimeBetweenShoots());
-        canShoot = true;
-    }
-
-    void ReduceAmmoInMagazine()
-    {
-        GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo -= 1;
-        //instantiate ammo husk
-    }
-
-    public IEnumerator Reload()
-    {
-        isReloading = true;
-
-        int currentWeaponNum = GetComponent<WeaponChanger>().SelectedGun;
-
-        const float secToIncrement = 3f; //When to Increment (Every 3 second)
-        float counter = 0;
-
-        while (true)
+        void Update()
         {
-            //Check if we have reached counter
-            if (counter > secToIncrement)
+            if (!canShoot) return;
+            if (isReloading) return;
+            if (weaponChanger.weapons[weaponChanger.SelectedGun].cachedAmmo == 0 &&
+                ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType()) == 0)
             {
-                counter = 0f; //Reset Counter
+                //play empty sound
+                return;
+            }
 
-                //if(ammo < basicWeaponAmmoCapacity) ...
-                if (ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType()) < basicWeaponAmmoCapacity)
+            if (Input.GetMouseButtonDown(0))
+            {
+                StartCoroutine(Shoot());
+            }
+            else if (Input.GetMouseButton(0) && currentWeaponConfig.IsAutomatic())
+            {
+                StartCoroutine(Shoot());
+            }
+        }
+
+        Weapon SetupDefaultWeapon()
+        {
+            weaponChanger.AddAtStartToWeaponList(defaultWeapon);
+            return AttachWeapon(defaultWeapon);
+        }
+
+        public void EquipWeapon(PlayerWeaponConfig weapon)
+        {
+            currentWeaponConfig = weapon;
+            currentWeapon = AttachWeapon(weapon);
+        }
+
+        Weapon AttachWeapon(PlayerWeaponConfig weapon)
+        {
+            StartCoroutine(PrepareGunToShoot());
+            return weapon.Spawn(rightHandTransform, leftHandTransform);
+        }
+
+        public void AmmoInMagazine(int amount)
+        {
+            weaponChanger.weapons[weaponChanger.SelectedGun].cachedAmmo = amount;
+        }
+
+        IEnumerator Shoot()
+        {
+            if (weaponChanger.weapons[weaponChanger.SelectedGun].cachedAmmo >= 1)
+            {
+                PlayMuzzleFlash();
+                ProcessRaycast();
+                ReduceAmmoInMagazine();
+                canShoot = false;
+
+
+                DisplayInUICurrentAmmo();
+            }
+            else
+            {
+                StartCoroutine(Reload());
+                print("auto reload");
+            }
+
+            yield return new WaitForSeconds(currentWeaponConfig.GetTimeBetweenShoots());
+            canShoot = true;
+        }
+
+        void ReduceAmmoInMagazine()
+        {
+            weaponChanger.weapons[weaponChanger.SelectedGun].cachedAmmo -= 1;
+            //instantiate ammo husk
+        }
+
+        /// <summary>
+        /// Reload coroutine
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator Reload()
+        {
+            isReloading = true;
+
+            int currentWeaponNum = weaponChanger.SelectedGun;
+
+            const float secToReload = 3f; //When to Reload (Every 3 second)
+            float counter = 0;
+
+            while (true)
+            {
+                //Check if we have reached counter
+                if (counter > secToReload)
                 {
-                    GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo = ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType());
-                    ammoSlot.ReduceAmmoAmount(currentWeaponConfig.GetAmmoType(), ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType()));
+                    counter = 0f; //Reset Counter
+
+                    //if ammo is lower then maximum ammo capacity for current weapon
+                    if (ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType()) < basicWeaponAmmoCapacity)
+                    {
+                        weaponChanger.weapons[weaponChanger.SelectedGun].cachedAmmo = ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType());
+                        ammoSlot.ReduceAmmoAmount(currentWeaponConfig.GetAmmoType(), ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType()));
+
+                        DisplayInUIAllAmmo();
+                        isReloading = false;
+
+                        print("last reload");
+                        yield break;
+                    }
+
+                    weaponChanger.weapons[weaponChanger.SelectedGun].cachedAmmo = basicWeaponAmmoCapacity;
+                    ammoSlot.ReduceAmmoAmount(currentWeaponConfig.GetAmmoType(), basicWeaponAmmoCapacity);
 
                     DisplayInUIAllAmmo();
                     isReloading = false;
 
-                    print("last reload");
+                    print("normal reload");
                     yield break;
                 }
 
-                GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo = basicWeaponAmmoCapacity;
-                ammoSlot.ReduceAmmoAmount(currentWeaponConfig.GetAmmoType(), basicWeaponAmmoCapacity);
+                //Increment counter
+                counter += Time.deltaTime;
 
-                DisplayInUIAllAmmo();
-                isReloading = false;
-                print("normal reload");
+                if (currentWeaponNum != weaponChanger.SelectedGun)
+                {
+                    Debug.Log("Action is break");
+                    isReloading = false;
+                    yield break;
+                }
 
-                yield break;
-                //reloaded 
+                yield return null;
             }
-
-            //Increment counter
-            counter += Time.deltaTime;
-
-            if (currentWeaponNum != GetComponent<WeaponChanger>().SelectedGun)
-            {
-                Debug.Log("Action is break");
-                isReloading = false;
-                yield break;
-            }
-
-            yield return null;
         }
-    }
 
-    void ProcessRaycast()
-    {
-        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-        ray.origin = cam.transform.position;
-
-        if (Physics.Raycast(ray, out RaycastHit hit, shootRange))
+        /// <summary>
+        /// Send raycast towards enemies
+        /// </summary>
+        void ProcessRaycast()
         {
-            //Debug.Log("I hit this: " + hit.transform.name);
+            Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+            ray.origin = cam.transform.position;
 
-            if (hit.collider.transform != null)
+            if (Physics.Raycast(ray, out RaycastHit hit, shootRange))
             {
-                HitBreakableEnemy(hit);
+                //Debug.Log("I hit this: " + hit.transform.name);
+
+                //Temporary will affect only enemies with structure of skeletons
+                if (hit.collider.transform != null)
+                {
+                    HitBreakableEnemy(hit);
+                }
+
+                CreateHitImpact(hit);
+
+                //EnemyHealth target = hit.transform.GetComponent<EnemyHealth>();
+                //if (target == null) { return; }
+                //target.DecreaseHitPoints(damageAmount);
+
             }
-
-            CreateHitImpact(hit);
-
-            //EnemyHealth target = hit.transform.GetComponent<EnemyHealth>();
-            //if (target == null) { return; }
-            //target.DecreaseHitPoints(damageAmount);
-
+            else { return; }
         }
-        else { return; }
-    }
 
-    public void BasicAmmoMagazineCapacity()
-    {
-        int selectedWeaponAmmoCapacity = currentWeaponConfig.GetMagazineCapacity();
-        basicWeaponAmmoCapacity = selectedWeaponAmmoCapacity;
-        //GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo = basicWeaponAmmoCapacity;
-    }
+        public void BasicAmmoMagazineCapacity()
+        {
+            int selectedWeaponAmmoCapacity = currentWeaponConfig.GetMagazineCapacity();
+            basicWeaponAmmoCapacity = selectedWeaponAmmoCapacity;
+            //GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo = basicWeaponAmmoCapacity;
+        }
 
-    void HitBreakableEnemy(RaycastHit hit)
-    {
-        BodyPart enemy = hit.transform.GetComponentInChildren<BodyPart>();
-        if (enemy == null) return;
-        enemy.DamageBodyPart(currentWeaponConfig.GetDamage());
-    }
+        void HitBreakableEnemy(RaycastHit hit)
+        {
+            BodyPart enemy = hit.transform.GetComponentInChildren<BodyPart>();
+            if (enemy == null) return;
+            enemy.DamageBodyPart(currentWeaponConfig.GetDamage());
+        }
 
-    void PlayMuzzleFlash()
-    {
-        if (currentWeapon.GetComponentInChildren<ParticleSystem>() == null) return;
-        currentWeapon.GetComponentInChildren<ParticleSystem>().Play();
-    }
+        void PlayMuzzleFlash()
+        {
+            if (currentWeapon.GetComponentInChildren<ParticleSystem>() == null) return;
+            currentWeapon.GetComponentInChildren<ParticleSystem>().Play();
+        }
 
-    void CreateHitImpact(RaycastHit hit)
-    {
-        if (currentWeaponConfig.GetHitEffect() == null) return;
-        GameObject impact = Instantiate(currentWeaponConfig.GetHitEffect(), hit.point, Quaternion.LookRotation(hit.normal));
-        Destroy(impact, 0.1f);
-    }
+        void CreateHitImpact(RaycastHit hit)
+        {
+            if (currentWeaponConfig.GetHitEffect() == null) return;
+            GameObject impact = Instantiate(currentWeaponConfig.GetHitEffect(), hit.point, Quaternion.LookRotation(hit.normal));
+            Destroy(impact, 0.1f);
+        }
 
-    IEnumerator PrepareGunToShoot()
-    {
-        yield return new WaitForSeconds(0.5f);
-        canShoot = true;
-    }
+        IEnumerator PrepareGunToShoot()
+        {
+            float prepareTimeGunToShoot = 0.5f;
 
-    void DisplayInUICurrentAmmo()
-    {
-        StatsDisplay.instance.currentAmmoMagazine.text = GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo.ToString();
-    }
+            yield return new WaitForSeconds(prepareTimeGunToShoot);
+            canShoot = true;
+        }
 
-    public void DisplayInUIAllAmmo()
-    {
-        StatsDisplay.instance.currentAmmoMagazine.text = GetComponent<WeaponChanger>().weapons[GetComponent<WeaponChanger>().SelectedGun].cachedAmmo.ToString();
-        StatsDisplay.instance.allAmmo.text = ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType()).ToString();
+        void DisplayInUICurrentAmmo()
+        {
+            StatsDisplay.instance.currentAmmoMagazine.text = weaponChanger.weapons[weaponChanger.SelectedGun].cachedAmmo.ToString();
+        }
+
+        public void DisplayInUIAllAmmo()
+        {
+            StatsDisplay.instance.currentAmmoMagazine.text = weaponChanger.weapons[weaponChanger.SelectedGun].cachedAmmo.ToString();
+            StatsDisplay.instance.allAmmo.text = ammoSlot.GetCurrentAmmo(currentWeaponConfig.GetAmmoType()).ToString();
+        }
     }
 }

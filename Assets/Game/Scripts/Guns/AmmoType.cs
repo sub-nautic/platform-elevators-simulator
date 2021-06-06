@@ -1,5 +1,7 @@
-
-public enum AmmoType
+namespace Project.WeaponControl
 {
-    Bullets
+    public enum AmmoType
+    {
+        Bullets
+    }
 }

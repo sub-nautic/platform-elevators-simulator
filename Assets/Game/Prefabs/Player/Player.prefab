@@ -422,6 +422,7 @@ MonoBehaviour:
   shootRange: 100
   ammoSlot: {fileID: 5669545707923841173}
   ammoText: {fileID: 0}
+  isReloading: 0
 --- !u!114 &4772006433954318039
 MonoBehaviour:
   m_ObjectHideFlags: 0

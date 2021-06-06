@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Project.Control;
+using Project.WeaponControl;
 using UnityEngine;
 
 public class Pickup : MonoBehaviour, IRaycastable

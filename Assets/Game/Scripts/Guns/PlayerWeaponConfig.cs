@@ -2,110 +2,113 @@ using RPG.Attributes;
 using RPG.Combat;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Player Weapon", menuName = "Weapons/Make New Player Weapon", order = 0)]
-public class PlayerWeaponConfig : ScriptableObject
+namespace Project.WeaponControl
 {
-    [SerializeField] float weaponDamage = 5f;
-    [SerializeField] float percentageBonus = 0f;
-    [SerializeField] float timeBetweenShoots = 0.1f;
-    [SerializeField] AmmoType ammoType;
-    [SerializeField] int magazinaCapacity = 0;
-    [SerializeField] Weapon equippedPrefab = null;
-    [SerializeField] Pickup equippedPickupPrefab = null;
-    [SerializeField] bool isAutomatic = true;
-    [SerializeField] bool isRightHanded = true;
-    [SerializeField] GameObject hitEffect;
-    [SerializeField] Projectile projectile = null;
-
-    const string weaponName = "Weapon";
-
-    public Weapon Spawn(Transform rightHand, Transform leftHand)
+    [CreateAssetMenu(fileName = "Player Weapon", menuName = "Weapons/Make New Player Weapon", order = 0)]
+    public class PlayerWeaponConfig : ScriptableObject
     {
-        DestroyOldWeapon(rightHand, leftHand);
+        [SerializeField] float weaponDamage = 5f;
+        [SerializeField] float percentageBonus = 0f;
+        [SerializeField] float timeBetweenShoots = 0.1f;
+        [SerializeField] AmmoType ammoType;
+        [SerializeField] int magazinaCapacity = 0;
+        [SerializeField] Weapon equippedPrefab = null;
+        [SerializeField] Pickup equippedPickupPrefab = null;
+        [SerializeField] bool isAutomatic = true;
+        [SerializeField] bool isRightHanded = true;
+        [SerializeField] GameObject hitEffect;
+        [SerializeField] Projectile projectile = null;
 
-        Weapon weapon = null;
+        const string weaponName = "Weapon";
 
-        if (equippedPrefab != null)
+        public Weapon Spawn(Transform rightHand, Transform leftHand)
         {
-            Transform handTransform = GetTransform(rightHand, leftHand);
+            DestroyOldWeapon(rightHand, leftHand);
 
-            weapon = Instantiate(equippedPrefab, handTransform);
-            weapon.gameObject.name = weaponName;
+            Weapon weapon = null;
+
+            if (equippedPrefab != null)
+            {
+                Transform handTransform = GetTransform(rightHand, leftHand);
+
+                weapon = Instantiate(equippedPrefab, handTransform);
+                weapon.gameObject.name = weaponName;
+            }
+
+            return weapon;
         }
 
-        return weapon;
-    }
-
-    void DestroyOldWeapon(Transform rightHand, Transform leftHand)
-    {
-        Transform oldWeapon = rightHand.Find(weaponName);
-        if (oldWeapon == null)
+        void DestroyOldWeapon(Transform rightHand, Transform leftHand)
         {
-            oldWeapon = leftHand.Find(weaponName);
+            Transform oldWeapon = rightHand.Find(weaponName);
+            if (oldWeapon == null)
+            {
+                oldWeapon = leftHand.Find(weaponName);
+            }
+            if (oldWeapon == null) return;
+
+            //have to rename oldWeapon to avoid some issues
+            oldWeapon.name = "DESTROYING";
+            Destroy(oldWeapon.gameObject);
         }
-        if (oldWeapon == null) return;
 
-        //have to rename oldWeapon to avoid some issues
-        oldWeapon.name = "DESTROYING";
-        Destroy(oldWeapon.gameObject);
-    }
+        Transform GetTransform(Transform rightHand, Transform leftHand)
+        {
+            Transform handTransform;
+            if (isRightHanded) handTransform = rightHand;
+            else handTransform = leftHand;
+            return handTransform;
+        }
 
-    Transform GetTransform(Transform rightHand, Transform leftHand)
-    {
-        Transform handTransform;
-        if (isRightHanded) handTransform = rightHand;
-        else handTransform = leftHand;
-        return handTransform;
-    }
+        public float GetDamage()
+        {
+            return weaponDamage;
+        }
 
-    public float GetDamage()
-    {
-        return weaponDamage;
-    }
+        public float GetPercentageBonus()
+        {
+            return percentageBonus;
+        }
 
-    public float GetPercentageBonus()
-    {
-        return percentageBonus;
-    }
+        public float GetTimeBetweenShoots()
+        {
+            return timeBetweenShoots;
+        }
 
-    public float GetTimeBetweenShoots()
-    {
-        return timeBetweenShoots;
-    }
+        public AmmoType GetAmmoType()
+        {
+            return ammoType;
+        }
 
-    public AmmoType GetAmmoType()
-    {
-        return ammoType;
-    }
+        public int GetMagazineCapacity()
+        {
+            return magazinaCapacity;
+        }
 
-    public int GetMagazineCapacity()
-    {
-        return magazinaCapacity;
-    }
+        public Pickup GetEquippedPickupPrefab()
+        {
+            return equippedPickupPrefab;
+        }
 
-    public Pickup GetEquippedPickupPrefab()
-    {
-        return equippedPickupPrefab;
-    }
+        public GameObject GetHitEffect()
+        {
+            return hitEffect;
+        }
 
-    public GameObject GetHitEffect()
-    {
-        return hitEffect;
-    }
+        public bool IsAutomatic()
+        {
+            return isAutomatic;
+        }
 
-    public bool IsAutomatic()
-    {
-        return isAutomatic;
-    }
+        public bool HasProjectile()
+        {
+            return projectile != null;
+        }
 
-    public bool HasProjectile()
-    {
-        return projectile != null;
-    }
-
-    public void LaunchProjectile(Transform rightHand, Transform leftHand, Health target, GameObject instigator, float calculatedDamage)
-    {
-        Projectile projectileInstance = Instantiate(projectile, GetTransform(rightHand, leftHand).position, Quaternion.identity);
-        projectileInstance.SetTarget(target, instigator, calculatedDamage);
+        public void LaunchProjectile(Transform rightHand, Transform leftHand, Health target, GameObject instigator, float calculatedDamage)
+        {
+            Projectile projectileInstance = Instantiate(projectile, GetTransform(rightHand, leftHand).position, Quaternion.identity);
+            projectileInstance.SetTarget(target, instigator, calculatedDamage);
+        }
     }
 }

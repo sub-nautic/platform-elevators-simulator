@@ -2,41 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ammo : MonoBehaviour
+namespace Project.WeaponControl
 {
-    [SerializeField] AmmoSlot[] ammoSlots;
-
-    [System.Serializable]
-    class AmmoSlot
+    public class Ammo : MonoBehaviour
     {
-        public AmmoType ammoType;
-        public int ammoAmount;
-    }
+        [SerializeField] AmmoSlot[] ammoSlots;
 
-    public int GetCurrentAmmo(AmmoType ammoType)
-    {
-        return GetAmmoSlot(ammoType).ammoAmount;
-    }
-
-    public void IncreaseAmmoAmount(AmmoType ammoType, int amount)
-    {
-        GetAmmoSlot(ammoType).ammoAmount += amount;
-    }
-
-    public void ReduceAmmoAmount(AmmoType ammoType, int amount)
-    {
-        GetAmmoSlot(ammoType).ammoAmount -= amount;
-    }
-
-    AmmoSlot GetAmmoSlot(AmmoType ammoType)
-    {
-        foreach (AmmoSlot slot in ammoSlots)
+        [System.Serializable]
+        class AmmoSlot
         {
-            if (slot.ammoType == ammoType)
-            {
-                return slot;
-            }
+            public AmmoType ammoType;
+            public int ammoAmount;
         }
-        return null;
+
+        public int GetCurrentAmmo(AmmoType ammoType)
+        {
+            return GetAmmoSlot(ammoType).ammoAmount;
+        }
+
+        public void IncreaseAmmoAmount(AmmoType ammoType, int amount)
+        {
+            GetAmmoSlot(ammoType).ammoAmount += amount;
+        }
+
+        public void ReduceAmmoAmount(AmmoType ammoType, int amount)
+        {
+            GetAmmoSlot(ammoType).ammoAmount -= amount;
+        }
+
+        AmmoSlot GetAmmoSlot(AmmoType ammoType)
+        {
+            foreach (AmmoSlot slot in ammoSlots)
+            {
+                if (slot.ammoType == ammoType)
+                {
+                    return slot;
+                }
+            }
+            return null;
+        }
     }
 }
